@@ -1,0 +1,243 @@
+sample_id,experiment,marker,treatment_or_substrate,inoculum,replicate,reads_after_taxonomy,included_primary,exclusion_reason,reads_after_prevalence,assay,sample_role
+16s_102,field,16S,S+,,7,48817.0,True,,48817.0,amplicon_16S,endpoint
+16s_103,field,16S,S+,,6,39995.0,True,,39995.0,amplicon_16S,endpoint
+16s_105,field,16S,S-,,4,51996.0,True,,51996.0,amplicon_16S,endpoint
+16s_107,field,16S,S-,,5,50101.0,True,,50101.0,amplicon_16S,endpoint
+16s_109,field,16S,UV-,,7,45919.0,False,confirmed technical extraction failure (same biological sample as shotgun P030),,amplicon_16S,endpoint
+16s_21,field,16S,UV-,,4,44099.0,True,,44099.0,amplicon_16S,endpoint
+16s_32,field,16S,S-,,6,56961.0,True,,56961.0,amplicon_16S,endpoint
+16s_35,field,16S,S-,,1,30544.0,True,,30544.0,amplicon_16S,endpoint
+16s_46,field,16S,S+,,2,60864.0,True,,60864.0,amplicon_16S,endpoint
+16s_47,field,16S,S+,,4,75651.0,True,,75651.0,amplicon_16S,endpoint
+16s_48,field,16S,S-,,3,71184.0,True,,71184.0,amplicon_16S,endpoint
+16s_49,field,16S,S-,,2,37842.0,True,,37842.0,amplicon_16S,endpoint
+16s_53,field,16S,S-,,7,30717.0,True,,30717.0,amplicon_16S,endpoint
+16s_57,field,16S,UV-,,5,50467.0,True,,50467.0,amplicon_16S,endpoint
+16s_66,field,16S,UV-,,1,35690.0,True,,35690.0,amplicon_16S,endpoint
+16s_71,field,16S,UV-,,2,48986.0,True,,48986.0,amplicon_16S,endpoint
+16s_77,field,16S,S+,,3,41189.0,True,,41189.0,amplicon_16S,endpoint
+16s_80,field,16S,UV-,,3,52448.0,True,,52448.0,amplicon_16S,endpoint
+16s_84,field,16S,UV-,,6,38805.0,True,,38805.0,amplicon_16S,endpoint
+16s_99,field,16S,S+,,1,48400.0,True,,48400.0,amplicon_16S,endpoint
+S021,field,ITS,UV-,,4,58271.0,True,,58271.0,amplicon_ITS,endpoint
+S032,field,ITS,S-,,6,55127.0,True,,55127.0,amplicon_ITS,endpoint
+S035,field,ITS,S-,,1,62341.0,True,,62341.0,amplicon_ITS,endpoint
+S046,field,ITS,S+,,2,52370.0,True,,52370.0,amplicon_ITS,endpoint
+S047,field,ITS,S+,,4,46558.0,True,,46558.0,amplicon_ITS,endpoint
+S048,field,ITS,S-,,3,72438.0,True,,72438.0,amplicon_ITS,endpoint
+S049,field,ITS,S-,,2,64.0,False,"<15,000 target-marker reads after taxonomy filtering",,amplicon_ITS,endpoint
+S053,field,ITS,S-,,7,45533.0,True,,45533.0,amplicon_ITS,endpoint
+S057,field,ITS,UV-,,5,10431.0,False,"<15,000 target-marker reads after taxonomy filtering",,amplicon_ITS,endpoint
+S066,field,ITS,UV-,,1,56064.0,True,,56064.0,amplicon_ITS,endpoint
+S071,field,ITS,UV-,,2,43362.0,True,,43362.0,amplicon_ITS,endpoint
+S077,field,ITS,S+,,3,41730.0,True,,41730.0,amplicon_ITS,endpoint
+S080,field,ITS,UV-,,3,36787.0,True,,36787.0,amplicon_ITS,endpoint
+S084,field,ITS,UV-,,6,52907.0,True,,52907.0,amplicon_ITS,endpoint
+S087,field,ITS,S+,,5,33917.0,True,,33917.0,amplicon_ITS,endpoint
+S099,field,ITS,S+,,1,55893.0,True,,55893.0,amplicon_ITS,endpoint
+S102,field,ITS,S+,,7,51714.0,True,,51714.0,amplicon_ITS,endpoint
+S103,field,ITS,S+,,6,58215.0,True,,58215.0,amplicon_ITS,endpoint
+S105,field,ITS,S-,,4,48555.0,True,,48555.0,amplicon_ITS,endpoint
+S107,field,ITS,S-,,5,58859.0,True,,58859.0,amplicon_ITS,endpoint
+S109,field,ITS,UV-,,7,24477.0,False,confirmed technical extraction failure (same biological sample as shotgun P030),,amplicon_ITS,endpoint
+16s_1,microcosm,16S,SusS+,InocS-,4,27853.0,True,,27695.0,amplicon_16S,endpoint
+16s_10,microcosm,16S,SusS-,InocS+,1,47647.0,True,,47514.0,amplicon_16S,endpoint
+16s_101,microcosm,16S,SusUV-,InocUV-,5,35346.0,True,,35200.0,amplicon_16S,endpoint
+16s_104,microcosm,16S,SusS+,InocS+,3,25223.0,True,,25189.0,amplicon_16S,endpoint
+16s_11,microcosm,16S,SusS+,InocUV-,1,24425.0,True,,24372.0,amplicon_16S,endpoint
+16s_110,microcosm,16S,SusS-,InocS+,2,53388.0,True,,53253.0,amplicon_16S,endpoint
+16s_111,microcosm,16S,SusS+,InocS+,2,48605.0,True,,48408.0,amplicon_16S,endpoint
+16s_12,microcosm,16S,SusUV-,InocS+,4,46230.0,True,,46123.0,amplicon_16S,endpoint
+16s_13,microcosm,16S,SusS-,InocS-,4,54872.0,True,,54596.0,amplicon_16S,endpoint
+16s_15,microcosm,16S,SusS+,InocS+,4,7900.0,False,"<15,000 target-marker reads after taxonomy filtering",,amplicon_16S,endpoint
+16s_16,microcosm,16S,SusUV-,InocUV-,4,25660.0,True,,25562.0,amplicon_16S,endpoint
+16s_18,microcosm,16S,SusS+,InocS+,5,56021.0,True,,55525.0,amplicon_16S,endpoint
+16s_19,microcosm,16S,SusS+,InocS-,3,45326.0,True,,44596.0,amplicon_16S,endpoint
+16s_2,microcosm,16S,SusUV-,InocS-,1,19395.0,True,,19380.0,amplicon_16S,endpoint
+16s_26,microcosm,16S,SusS-,InocUV-,5,41256.0,True,,41178.0,amplicon_16S,endpoint
+16s_28,microcosm,16S,SusS-,InocUV-,2,31855.0,True,,31762.0,amplicon_16S,endpoint
+16s_3,microcosm,16S,SusUV-,InocUV-,1,5237.0,False,"<15,000 target-marker reads after taxonomy filtering",,amplicon_16S,endpoint
+16s_34,microcosm,16S,SusUV-,InocS+,5,42217.0,True,,42009.0,amplicon_16S,endpoint
+16s_39,microcosm,16S,SusUV-,InocS+,3,41702.0,True,,41667.0,amplicon_16S,endpoint
+16s_4,microcosm,16S,SusUV-,InocS+,1,54397.0,True,,54282.0,amplicon_16S,endpoint
+16s_40,microcosm,16S,SusS-,InocS-,2,61098.0,True,,60945.0,amplicon_16S,endpoint
+16s_42,microcosm,16S,SusS+,InocUV-,2,23310.0,True,,23127.0,amplicon_16S,endpoint
+16s_43,microcosm,16S,SusUV-,InocUV-,3,54376.0,True,,54036.0,amplicon_16S,endpoint
+16s_5,microcosm,16S,SusS+,InocUV-,4,42551.0,True,,42317.0,amplicon_16S,endpoint
+16s_52,microcosm,16S,SusUV-,InocS+,2,25893.0,True,,25865.0,amplicon_16S,endpoint
+16s_54,microcosm,16S,SusUV-,InocS-,2,34797.0,True,,34701.0,amplicon_16S,endpoint
+16s_58,microcosm,16S,SusS+,InocS-,2,48525.0,True,,48472.0,amplicon_16S,endpoint
+16s_59,microcosm,16S,SusS-,InocS-,5,48334.0,True,,47761.0,amplicon_16S,endpoint
+16s_6,microcosm,16S,SusS+,InocS-,1,28898.0,True,,28648.0,amplicon_16S,endpoint
+16s_7,microcosm,16S,SusS-,InocS-,1,4189.0,False,"<15,000 target-marker reads after taxonomy filtering",,amplicon_16S,endpoint
+16s_70,microcosm,16S,SusS-,InocS+,5,52879.0,True,,52428.0,amplicon_16S,endpoint
+16s_74,microcosm,16S,SusS-,InocS+,3,34547.0,True,,34522.0,amplicon_16S,endpoint
+16s_76,microcosm,16S,SusS-,InocUV-,3,25385.0,True,,25335.0,amplicon_16S,endpoint
+16s_8,microcosm,16S,SusS-,InocUV-,1,11339.0,False,"<15,000 target-marker reads after taxonomy filtering",,amplicon_16S,endpoint
+16s_82,microcosm,16S,SusUV-,InocS-,5,48240.0,True,,48027.0,amplicon_16S,endpoint
+16s_85,microcosm,16S,SusUV-,InocS-,3,33191.0,True,,33094.0,amplicon_16S,endpoint
+16s_89,microcosm,16S,SusS+,InocUV-,5,33690.0,True,,33571.0,amplicon_16S,endpoint
+16s_9,microcosm,16S,SusS+,InocS+,1,21745.0,True,,21595.0,amplicon_16S,endpoint
+16s_93,microcosm,16S,SusS-,InocS-,3,170.0,False,"<15,000 target-marker reads after taxonomy filtering",,amplicon_16S,endpoint
+16s_94,microcosm,16S,SusUV-,InocUV-,2,21966.0,True,,21920.0,amplicon_16S,endpoint
+16s_96,microcosm,16S,SusS+,InocS-,5,26252.0,True,,26002.0,amplicon_16S,endpoint
+S001,microcosm,ITS,SusS+,InocS-,4,119527.0,True,,119206.0,amplicon_ITS,endpoint
+S002,microcosm,ITS,SusUV-,InocS-,1,62563.0,True,,62544.0,amplicon_ITS,endpoint
+S003,microcosm,ITS,SusUV-,InocUV-,1,55954.0,True,,55906.0,amplicon_ITS,endpoint
+S004,microcosm,ITS,SusUV-,InocS+,1,66082.0,True,,65762.0,amplicon_ITS,endpoint
+S005,microcosm,ITS,SusS+,InocUV-,4,58548.0,True,,58150.0,amplicon_ITS,endpoint
+S007,microcosm,ITS,SusS-,InocS-,1,48632.0,True,,48410.0,amplicon_ITS,endpoint
+S008,microcosm,ITS,SusS-,InocUV-,1,39689.0,True,,39686.0,amplicon_ITS,endpoint
+S009,microcosm,ITS,SusS+,InocS+,1,49203.0,True,,48766.0,amplicon_ITS,endpoint
+S010,microcosm,ITS,SusS-,InocS+,1,51229.0,True,,51189.0,amplicon_ITS,endpoint
+S011,microcosm,ITS,SusS+,InocUV-,1,54973.0,True,,54386.0,amplicon_ITS,endpoint
+S012,microcosm,ITS,SusUV-,InocS+,4,56152.0,True,,56136.0,amplicon_ITS,endpoint
+S013,microcosm,ITS,SusS-,InocS-,4,47565.0,True,,47451.0,amplicon_ITS,endpoint
+S015,microcosm,ITS,SusS+,InocS+,4,52204.0,True,,52196.0,amplicon_ITS,endpoint
+S016,microcosm,ITS,SusUV-,InocUV-,4,42165.0,True,,41891.0,amplicon_ITS,endpoint
+S018,microcosm,ITS,SusS+,InocS+,5,68942.0,True,,68612.0,amplicon_ITS,endpoint
+S019,microcosm,ITS,SusS+,InocS-,3,78877.0,True,,78715.0,amplicon_ITS,endpoint
+S026,microcosm,ITS,SusS-,InocUV-,5,68751.0,True,,68691.0,amplicon_ITS,endpoint
+S028,microcosm,ITS,SusS-,InocUV-,2,70576.0,True,,70574.0,amplicon_ITS,endpoint
+S034,microcosm,ITS,SusUV-,InocS+,5,65124.0,True,,64950.0,amplicon_ITS,endpoint
+S039,microcosm,ITS,SusUV-,InocS+,3,58127.0,True,,57922.0,amplicon_ITS,endpoint
+S040,microcosm,ITS,SusS-,InocS-,2,52733.0,True,,52574.0,amplicon_ITS,endpoint
+S042,microcosm,ITS,SusS+,InocUV-,2,45691.0,True,,45682.0,amplicon_ITS,endpoint
+S043,microcosm,ITS,SusUV-,InocUV-,3,45412.0,True,,45380.0,amplicon_ITS,endpoint
+S052,microcosm,ITS,SusUV-,InocS+,2,64890.0,True,,64861.0,amplicon_ITS,endpoint
+S054,microcosm,ITS,SusUV-,InocS-,2,55487.0,True,,55125.0,amplicon_ITS,endpoint
+S058,microcosm,ITS,SusS+,InocS-,2,42994.0,True,,42850.0,amplicon_ITS,endpoint
+S059,microcosm,ITS,SusS-,InocS-,5,47641.0,True,,47352.0,amplicon_ITS,endpoint
+S070,microcosm,ITS,SusS-,InocS+,5,52448.0,True,,52304.0,amplicon_ITS,endpoint
+S074,microcosm,ITS,SusS-,InocS+,3,43038.0,True,,43019.0,amplicon_ITS,endpoint
+S076,microcosm,ITS,SusS-,InocUV-,3,53705.0,True,,53667.0,amplicon_ITS,endpoint
+S082,microcosm,ITS,SusUV-,InocS-,5,44288.0,True,,43908.0,amplicon_ITS,endpoint
+S085,microcosm,ITS,SusUV-,InocS-,3,57929.0,True,,57909.0,amplicon_ITS,endpoint
+S088,microcosm,ITS,SusS+,InocUV-,3,68808.0,True,,68510.0,amplicon_ITS,endpoint
+S089,microcosm,ITS,SusS+,InocUV-,5,66633.0,True,,66598.0,amplicon_ITS,endpoint
+S093,microcosm,ITS,SusS-,InocS-,3,46099.0,True,,46085.0,amplicon_ITS,endpoint
+S094,microcosm,ITS,SusUV-,InocUV-,2,60054.0,True,,60019.0,amplicon_ITS,endpoint
+S096,microcosm,ITS,SusS+,InocS-,5,75201.0,True,,75071.0,amplicon_ITS,endpoint
+S101,microcosm,ITS,SusUV-,InocUV-,5,68848.0,True,,68758.0,amplicon_ITS,endpoint
+S104,microcosm,ITS,SusS+,InocS+,3,47996.0,True,,47925.0,amplicon_ITS,endpoint
+S111,microcosm,ITS,SusS+,InocS+,2,48478.0,True,,48424.0,amplicon_ITS,endpoint
+1,microcosm,functional_measurements,S+,InocR+,1,,True,,,functional_measurements,endpoint
+2,microcosm,functional_measurements,S-,InocR+,1,,True,,,functional_measurements,endpoint
+3,microcosm,functional_measurements,UV-,InocR+,1,,True,,,functional_measurements,endpoint
+4,microcosm,functional_measurements,S+,InocR-,1,,True,,,functional_measurements,endpoint
+5,microcosm,functional_measurements,S-,InocR-,1,,True,,,functional_measurements,endpoint
+6,microcosm,functional_measurements,UV-,InocR-,1,,True,,,functional_measurements,endpoint
+7,microcosm,functional_measurements,S+,InocUV-,1,,True,,,functional_measurements,endpoint
+8,microcosm,functional_measurements,S-,InocUV-,1,,True,,,functional_measurements,endpoint
+9,microcosm,functional_measurements,UV-,InocUV-,1,,True,,,functional_measurements,endpoint
+10,microcosm,functional_measurements,S+,InocR+,2,,True,,,functional_measurements,endpoint
+11,microcosm,functional_measurements,S-,InocR+,2,,True,,,functional_measurements,endpoint
+12,microcosm,functional_measurements,UV-,InocR+,2,,True,,,functional_measurements,endpoint
+13,microcosm,functional_measurements,S+,InocR-,2,,True,,,functional_measurements,endpoint
+14,microcosm,functional_measurements,S-,InocR-,2,,True,,,functional_measurements,endpoint
+15,microcosm,functional_measurements,UV-,InocR-,2,,True,,,functional_measurements,endpoint
+16,microcosm,functional_measurements,S+,InocUV-,2,,True,,,functional_measurements,endpoint
+17,microcosm,functional_measurements,S-,InocUV-,2,,True,,,functional_measurements,endpoint
+18,microcosm,functional_measurements,UV-,InocUV-,2,,True,,,functional_measurements,endpoint
+19,microcosm,functional_measurements,S+,InocR+,3,,True,,,functional_measurements,endpoint
+20,microcosm,functional_measurements,S-,InocR+,3,,True,,,functional_measurements,endpoint
+21,microcosm,functional_measurements,UV-,InocR+,3,,True,,,functional_measurements,endpoint
+22,microcosm,functional_measurements,S+,InocR-,3,,True,,,functional_measurements,endpoint
+23,microcosm,functional_measurements,S-,InocR-,3,,True,,,functional_measurements,endpoint
+24,microcosm,functional_measurements,UV-,InocR-,3,,True,,,functional_measurements,endpoint
+25,microcosm,functional_measurements,S+,InocUV-,3,,True,,,functional_measurements,endpoint
+26,microcosm,functional_measurements,S-,InocUV-,3,,True,,,functional_measurements,endpoint
+27,microcosm,functional_measurements,UV-,InocUV-,3,,True,,,functional_measurements,endpoint
+28,microcosm,functional_measurements,S+,InocR+,4,,True,,,functional_measurements,endpoint
+30,microcosm,functional_measurements,UV-,InocR+,4,,True,,,functional_measurements,endpoint
+31,microcosm,functional_measurements,S+,InocR-,4,,True,,,functional_measurements,endpoint
+32,microcosm,functional_measurements,S-,InocR-,4,,True,,,functional_measurements,endpoint
+33,microcosm,functional_measurements,UV-,InocR-,4,,True,,,functional_measurements,endpoint
+34,microcosm,functional_measurements,S+,InocUV-,4,,True,,,functional_measurements,endpoint
+36,microcosm,functional_measurements,UV-,InocUV-,4,,True,,,functional_measurements,endpoint
+37,microcosm,functional_measurements,S+,InocR+,5,,True,,,functional_measurements,endpoint
+38,microcosm,functional_measurements,S-,InocR+,5,,True,,,functional_measurements,endpoint
+39,microcosm,functional_measurements,UV-,InocR+,5,,True,,,functional_measurements,endpoint
+40,microcosm,functional_measurements,S+,InocR-,5,,True,,,functional_measurements,endpoint
+41,microcosm,functional_measurements,S-,InocR-,5,,True,,,functional_measurements,endpoint
+42,microcosm,functional_measurements,UV-,InocR-,5,,True,,,functional_measurements,endpoint
+43,microcosm,functional_measurements,S+,InocUV-,5,,True,,,functional_measurements,endpoint
+44,microcosm,functional_measurements,S-,InocUV-,5,,True,,,functional_measurements,endpoint
+45,microcosm,functional_measurements,UV-,InocUV-,5,,True,,,functional_measurements,endpoint
+46,microcosm,functional_measurements,S+,InocR+,6,,True,,,functional_measurements,endpoint
+47,microcosm,functional_measurements,S+,InocR-,6,,True,,,functional_measurements,endpoint
+48,microcosm,functional_measurements,S+,InocUV-,6,,True,,,functional_measurements,endpoint
+49,microcosm,functional_measurements,S+,NI,7,,False,non-inoculated control; descriptive only,,functional_measurements,control
+50,microcosm,functional_measurements,S+,NI,7,,False,non-inoculated control; descriptive only,,functional_measurements,control
+51,microcosm,functional_measurements,S+,NI,7,,False,non-inoculated control; descriptive only,,functional_measurements,control
+52,microcosm,functional_measurements,S-,NI,7,,False,non-inoculated control; descriptive only,,functional_measurements,control
+53,microcosm,functional_measurements,UV-,NI,7,,False,non-inoculated control; descriptive only,,functional_measurements,control
+54,microcosm,functional_measurements,UV-,NI,7,,False,non-inoculated control; descriptive only,,functional_measurements,control
+55,microcosm,functional_measurements,UV-,NI,7,,False,non-inoculated control; descriptive only,,functional_measurements,control
+P012,field,shotgun_metagenome,S+,,1,,True,,,shotgun_metagenome,endpoint
+P015,field,shotgun_metagenome,S+,,7,,True,,,shotgun_metagenome,endpoint
+P016,field,shotgun_metagenome,S+,,6,,True,,,shotgun_metagenome,endpoint
+P026,field,shotgun_metagenome,S-,,4,,True,,,shotgun_metagenome,endpoint
+P028,field,shotgun_metagenome,S-,,5,,True,,,shotgun_metagenome,endpoint
+P030,field,shotgun_metagenome,UV-,,7,,False,confirmed technical extraction failure; excluded before all downstream analyses,,shotgun_metagenome,endpoint
+P037,field,shotgun_metagenome,UV-,,4,,True,,,shotgun_metagenome,endpoint
+P048,field,shotgun_metagenome,S-,,6,,True,,,shotgun_metagenome,endpoint
+P051,field,shotgun_metagenome,S-,,1,,True,,,shotgun_metagenome,endpoint
+P062,field,shotgun_metagenome,S+,,2,,True,,,shotgun_metagenome,endpoint
+P063,field,shotgun_metagenome,S+,,4,,True,,,shotgun_metagenome,endpoint
+P064,field,shotgun_metagenome,S-,,3,,True,,,shotgun_metagenome,endpoint
+P065,field,shotgun_metagenome,S-,,2,,True,,,shotgun_metagenome,endpoint
+P069,field,shotgun_metagenome,S-,,7,,True,,,shotgun_metagenome,endpoint
+P073,field,shotgun_metagenome,UV-,,5,,True,,,shotgun_metagenome,endpoint
+P082,field,shotgun_metagenome,UV-,,1,,True,,,shotgun_metagenome,endpoint
+P087,field,shotgun_metagenome,UV-,,2,,False,no usable KO profile,,shotgun_metagenome,endpoint
+P093,field,shotgun_metagenome,S+,,3,,True,,,shotgun_metagenome,endpoint
+P096,field,shotgun_metagenome,UV-,,3,,True,,,shotgun_metagenome,endpoint
+P100,field,shotgun_metagenome,UV-,,6,,True,,,shotgun_metagenome,endpoint
+P103,field,shotgun_metagenome,S+,,5,,True,,,shotgun_metagenome,endpoint
+P001,microcosm,shotgun_metagenome,SusS+,InocS-,4,,True,,,shotgun_metagenome,endpoint
+P002,microcosm,shotgun_metagenome,SusUV-,InocS-,1,,True,,,shotgun_metagenome,endpoint
+P003,microcosm,shotgun_metagenome,SusUV-,InocUV-,1,,True,,,shotgun_metagenome,endpoint
+P004,microcosm,shotgun_metagenome,SusUV-,InocS+,1,,True,,,shotgun_metagenome,endpoint
+P005,microcosm,shotgun_metagenome,SusS+,InocUV-,4,,True,,,shotgun_metagenome,endpoint
+P006,microcosm,shotgun_metagenome,SusS+,InocS-,1,,True,,,shotgun_metagenome,endpoint
+P007,microcosm,shotgun_metagenome,SusS-,InocS-,1,,True,,,shotgun_metagenome,endpoint
+P008,microcosm,shotgun_metagenome,SusS-,InocUV-,1,,True,,,shotgun_metagenome,endpoint
+P009,microcosm,shotgun_metagenome,SusS+,InocS-,5,,True,,,shotgun_metagenome,endpoint
+P014,microcosm,shotgun_metagenome,SusUV-,InocUV-,5,,True,,,shotgun_metagenome,endpoint
+P017,microcosm,shotgun_metagenome,SusS+,InocS+,1,,True,,,shotgun_metagenome,endpoint
+P018,microcosm,shotgun_metagenome,SusS-,InocS+,1,,True,,,shotgun_metagenome,endpoint
+P019,microcosm,shotgun_metagenome,SusS+,InocUV-,1,,True,,,shotgun_metagenome,endpoint
+P020,microcosm,shotgun_metagenome,SusUV-,InocS+,4,,True,,,shotgun_metagenome,endpoint
+P021,microcosm,shotgun_metagenome,SusS-,InocS-,4,,True,,,shotgun_metagenome,endpoint
+P024,microcosm,shotgun_metagenome,SusUV-,InocUV-,4,,True,,,shotgun_metagenome,endpoint
+P025,microcosm,shotgun_metagenome,SusS+,InocS+,3,,True,,,shotgun_metagenome,endpoint
+P031,microcosm,shotgun_metagenome,SusS-,InocS+,2,,True,,,shotgun_metagenome,endpoint
+P032,microcosm,shotgun_metagenome,SusS+,InocS+,2,,True,,,shotgun_metagenome,endpoint
+P034,microcosm,shotgun_metagenome,SusS+,InocS+,5,,True,,,shotgun_metagenome,endpoint
+P035,microcosm,shotgun_metagenome,SusS+,InocS-,3,,True,,,shotgun_metagenome,endpoint
+P041,microcosm,shotgun_metagenome,Initial,InocS-,2,,False,initial inoculum; excluded by design,,shotgun_metagenome,initial
+P042,microcosm,shotgun_metagenome,SusS-,InocUV-,5,,True,,,shotgun_metagenome,endpoint
+P044,microcosm,shotgun_metagenome,SusS-,InocUV-,2,,True,,,shotgun_metagenome,endpoint
+P050,microcosm,shotgun_metagenome,SusUV-,InocS+,5,,True,,,shotgun_metagenome,endpoint
+P053,microcosm,shotgun_metagenome,Initial,InocS+,2,,False,initial inoculum; excluded by design,,shotgun_metagenome,initial
+P055,microcosm,shotgun_metagenome,SusUV-,InocS+,3,,True,,,shotgun_metagenome,endpoint
+P056,microcosm,shotgun_metagenome,SusS-,InocS-,2,,True,,,shotgun_metagenome,endpoint
+P058,microcosm,shotgun_metagenome,SusS+,InocUV-,2,,True,,,shotgun_metagenome,endpoint
+P059,microcosm,shotgun_metagenome,SusUV-,InocUV-,3,,True,,,shotgun_metagenome,endpoint
+P068,microcosm,shotgun_metagenome,SusUV-,InocS+,2,,True,,,shotgun_metagenome,endpoint
+P070,microcosm,shotgun_metagenome,SusUV-,InocS-,2,,True,,,shotgun_metagenome,endpoint
+P074,microcosm,shotgun_metagenome,SusS+,InocS-,2,,True,,,shotgun_metagenome,endpoint
+P075,microcosm,shotgun_metagenome,SusS-,InocS-,5,,True,,,shotgun_metagenome,endpoint
+P078,microcosm,shotgun_metagenome,Initial,InocUV-,2,,False,initial inoculum; excluded by design,,shotgun_metagenome,initial
+P080,microcosm,shotgun_metagenome,Initial,InocS+,1,,False,initial inoculum; excluded by design,,shotgun_metagenome,initial
+P084,microcosm,shotgun_metagenome,Initial,InocUV-,1,,False,initial inoculum; excluded by design,,shotgun_metagenome,initial
+P086,microcosm,shotgun_metagenome,SusS-,InocS+,5,,True,,,shotgun_metagenome,endpoint
+P090,microcosm,shotgun_metagenome,SusS-,InocS+,3,,True,,,shotgun_metagenome,endpoint
+P092,microcosm,shotgun_metagenome,SusS-,InocUV-,3,,True,,,shotgun_metagenome,endpoint
+P098,microcosm,shotgun_metagenome,SusUV-,InocS-,5,,True,,,shotgun_metagenome,endpoint
+P101,microcosm,shotgun_metagenome,SusUV-,InocS-,3,,True,,,shotgun_metagenome,endpoint
+P104,microcosm,shotgun_metagenome,SusS+,InocUV-,3,,True,,,shotgun_metagenome,endpoint
+P105,microcosm,shotgun_metagenome,SusS+,InocUV-,5,,True,,,shotgun_metagenome,endpoint
+P109,microcosm,shotgun_metagenome,SusS-,InocS-,3,,True,,,shotgun_metagenome,endpoint
+P110,microcosm,shotgun_metagenome,SusUV-,InocUV-,2,,True,,,shotgun_metagenome,endpoint

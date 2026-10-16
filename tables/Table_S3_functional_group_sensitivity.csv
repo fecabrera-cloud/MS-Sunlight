@@ -1,0 +1,26 @@
+Experiment,Functional group,Primary BH-adjusted p,Log-transformed BH-adjusted p,Leave-one-out minimum BH-adjusted p,Leave-one-out maximum BH-adjusted p,Omissions changing significance (n),Omissions changing significance (sample IDs),Primary result,Sensitivity interpretation
+Field,Sensory photoreception,0.164820767439207,0.414946614162857,0.0933389126923417,0.462942730257935,0,,Not significant,Stable nonsignificant result
+Field,Carotenoid biosynthesis and modification,0.0961765261758865,0.105695070864144,0.0807192832574957,0.187916954360576,0,,Not significant,Stable nonsignificant result
+Field,Enzymatic ROS defense,0.164820767439207,0.183814453021647,0.105402119413717,0.35916258198257,0,,Not significant,Stable nonsignificant result
+Field,Photoreactivation and nucleotide-excision repair,0.870313851892701,0.865807374069338,0.382295731608159,0.966590199686711,0,,Not significant,Stable nonsignificant result
+Field,General DNA-damage repair and tolerance,0.0961765261758865,0.105695070864144,0.0449207461934235,0.187916954360576,1,P063,Not significant,Primary result nonsignificant; significance threshold crossed after some sensitivity analyses
+Field,Cellulose degradation,0.164820767439207,0.148625880802056,0.115970498736319,0.324827928930303,0,,Not significant,Stable nonsignificant result
+Field,Hemicellulose degradation,0.0961765261758865,0.105695070864144,0.0512995050056639,0.248430103493036,0,,Not significant,Stable nonsignificant result
+Field,Pectin degradation,0.412457954911807,0.568987093514653,0.133644553414913,0.676077250252298,0,,Not significant,Stable nonsignificant result
+Field,Cutin degradation,0.164820767439207,0.330509674347425,0.115970498736319,0.35916258198257,0,,Not significant,Stable nonsignificant result
+Field,Alpha-glucan and fructan processing,0.765531102758583,0.715325671522659,0.356757990158494,0.933642111430399,0,,Not significant,Stable nonsignificant result
+Field,Oligosaccharide and disaccharide utilization,0.146815146002241,0.148625880802056,0.115970498736319,0.248430103493036,0,,Not significant,Stable nonsignificant result
+Field,Lignin-associated oxidation,0.412457954911807,0.568987093514653,0.164900625870512,0.755203466775691,0,,Not significant,Stable nonsignificant result
+Field,Aromatic-compound catabolism,0.0961765261758865,0.105695070864144,0.0512995050056639,0.187916954360576,0,,Not significant,Stable nonsignificant result
+Microcosm,Sensory photoreception,0.51697277771471,0.72307459979267,0.246225735526916,0.746597849887819,0,,Not significant,Stable nonsignificant result
+Microcosm,Carotenoid biosynthesis and modification,0.188970197494002,0.174865970770464,0.0706496642113972,0.368503990165776,0,,Not significant,Stable nonsignificant result
+Microcosm,Enzymatic ROS defense,0.0978895738592612,0.0993792566440909,0.0301033124190225,0.182595211821439,2,P019; P059,Not significant,Primary result nonsignificant; significance threshold crossed after some sensitivity analyses
+Microcosm,Photoreactivation and nucleotide-excision repair,0.0286880124987563,0.0386949170095878,0.0080042250995127,0.0595525552468772,6,P025; P074; P034; P042; P086; P032,Significant,Stable after log transformation; sensitive to single-sample omission
+Microcosm,General DNA-damage repair and tolerance,0.146509247259963,0.163346200369505,0.0508186421105313,0.275697966423252,0,,Not significant,Stable nonsignificant result
+Microcosm,Cellulose degradation,0.0004070798418163,0.0066535253013984,3.13126623070481e-05,0.001380157804335,0,,Significant,Robust to log transformation and all single-sample omissions
+Microcosm,Hemicellulose degradation,0.0004070798418163,0.0052248152099736,3.13126623070481e-05,0.001380157804335,0,,Significant,Robust to log transformation and all single-sample omissions
+Microcosm,Pectin degradation,0.0131712435092862,0.068947288681557,0.0019231757903283,0.0357014403149178,0,,Significant,Sensitive to log transformation; stable to single-sample omission
+Microcosm,Cutin degradation,0.089993204034388,0.163346200369505,0.0189331861937574,0.15220149767818,3,P021; P101; P059,Not significant,Primary result nonsignificant; significance threshold crossed after some sensitivity analyses
+Microcosm,Alpha-glucan and fructan processing,0.0004047043593673,0.0002601147197021,3.47709737935631e-05,0.000766203652442,0,,Significant,Robust to log transformation and all single-sample omissions
+Microcosm,Oligosaccharide and disaccharide utilization,0.0131712435092862,0.030886795073132,0.0023378254079758,0.0267710870107524,0,,Significant,Robust to log transformation and all single-sample omissions
+Microcosm,Aromatic-compound catabolism,0.0978895738592612,0.11740903317147,0.0355050712658335,0.230703650888396,1,P101,Not significant,Primary result nonsignificant; significance threshold crossed after some sensitivity analyses

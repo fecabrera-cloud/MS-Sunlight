@@ -1,0 +1,106 @@
+assay,assay_unit_id,source_treatment,treatment,assay_replicate,analytical_run,variable,value,basis_or_unit
+chemical_analysis,chemistry_R-_1,R-,S-,1,,Nt (%),0.76,% dry mass
+chemical_analysis,chemistry_R-_1,R-,S-,1,,TOC (%),39.42,% dry mass
+chemical_analysis,chemistry_R-_1,R-,S-,1,,TP (ppm),535.2,ppm dry mass
+chemical_analysis,chemistry_R-_1,R-,S-,1,,C:N,51.86842105263158,ratio
+chemical_analysis,chemistry_R-_1,R-,S-,1,,pH,7.39,pH
+chemical_analysis,chemistry_R-_2,R-,S-,2,,Nt (%),0.73,% dry mass
+chemical_analysis,chemistry_R-_2,R-,S-,2,,TOC (%),41.43,% dry mass
+chemical_analysis,chemistry_R-_2,R-,S-,2,,TP (ppm),506.1,ppm dry mass
+chemical_analysis,chemistry_R-_2,R-,S-,2,,C:N,56.75342465753425,ratio
+chemical_analysis,chemistry_R-_2,R-,S-,2,,pH,7.32,pH
+chemical_analysis,chemistry_R-_3,R-,S-,3,,Nt (%),0.74,% dry mass
+chemical_analysis,chemistry_R-_3,R-,S-,3,,TOC (%),39.93,% dry mass
+chemical_analysis,chemistry_R-_3,R-,S-,3,,TP (ppm),248.9,ppm dry mass
+chemical_analysis,chemistry_R-_3,R-,S-,3,,C:N,53.95945945945946,ratio
+chemical_analysis,chemistry_R-_3,R-,S-,3,,pH,7.32,pH
+chemical_analysis,chemistry_R+_1,R+,S+,1,,Nt (%),0.66,% dry mass
+chemical_analysis,chemistry_R+_1,R+,S+,1,,TOC (%),44.24,% dry mass
+chemical_analysis,chemistry_R+_1,R+,S+,1,,TP (ppm),428.4,ppm dry mass
+chemical_analysis,chemistry_R+_1,R+,S+,1,,C:N,67.03030303030303,ratio
+chemical_analysis,chemistry_R+_1,R+,S+,1,,pH,5.6,pH
+chemical_analysis,chemistry_R+_2,R+,S+,2,,Nt (%),0.66,% dry mass
+chemical_analysis,chemistry_R+_2,R+,S+,2,,TOC (%),44.14,% dry mass
+chemical_analysis,chemistry_R+_2,R+,S+,2,,TP (ppm),546.7,ppm dry mass
+chemical_analysis,chemistry_R+_2,R+,S+,2,,C:N,66.87878787878788,ratio
+chemical_analysis,chemistry_R+_2,R+,S+,2,,pH,5.45,pH
+chemical_analysis,chemistry_R+_3,R+,S+,3,,Nt (%),0.78,% dry mass
+chemical_analysis,chemistry_R+_3,R+,S+,3,,TOC (%),39.77,% dry mass
+chemical_analysis,chemistry_R+_3,R+,S+,3,,TP (ppm),438.3,ppm dry mass
+chemical_analysis,chemistry_R+_3,R+,S+,3,,C:N,50.98717948717949,ratio
+chemical_analysis,chemistry_R+_3,R+,S+,3,,pH,5.5,pH
+chemical_analysis,chemistry_UV-_1,UV-,UV-,1,,Nt (%),0.61,% dry mass
+chemical_analysis,chemistry_UV-_1,UV-,UV-,1,,TOC (%),40.01,% dry mass
+chemical_analysis,chemistry_UV-_1,UV-,UV-,1,,TP (ppm),423.7,ppm dry mass
+chemical_analysis,chemistry_UV-_1,UV-,UV-,1,,C:N,65.59016393442623,ratio
+chemical_analysis,chemistry_UV-_1,UV-,UV-,1,,pH,7.0,pH
+chemical_analysis,chemistry_UV-_2,UV-,UV-,2,,Nt (%),0.72,% dry mass
+chemical_analysis,chemistry_UV-_2,UV-,UV-,2,,TOC (%),41.38,% dry mass
+chemical_analysis,chemistry_UV-_2,UV-,UV-,2,,TP (ppm),453.5,ppm dry mass
+chemical_analysis,chemistry_UV-_2,UV-,UV-,2,,C:N,57.47222222222223,ratio
+chemical_analysis,chemistry_UV-_2,UV-,UV-,2,,pH,6.97,pH
+chemical_analysis,chemistry_UV-_3,UV-,UV-,3,,Nt (%),0.67,% dry mass
+chemical_analysis,chemistry_UV-_3,UV-,UV-,3,,TOC (%),42.17,% dry mass
+chemical_analysis,chemistry_UV-_3,UV-,UV-,3,,TP (ppm),462.6,ppm dry mass
+chemical_analysis,chemistry_UV-_3,UV-,UV-,3,,C:N,62.940298507462686,ratio
+chemical_analysis,chemistry_UV-_3,UV-,UV-,3,,pH,6.95,pH
+muffle_loss_on_ignition,muffle_R+_1,R+,S+,1,,Total organic matter (%),89.47368420000001,% total dry mass
+muffle_loss_on_ignition,muffle_R+_2,R+,S+,2,,Total organic matter (%),90.0497512,% total dry mass
+muffle_loss_on_ignition,muffle_R+_3,R+,S+,3,,Total organic matter (%),89.9521531,% total dry mass
+muffle_loss_on_ignition,muffle_R-_1,R-,S-,1,,Total organic matter (%),80.1801802,% total dry mass
+muffle_loss_on_ignition,muffle_R-_2,R-,S-,2,,Total organic matter (%),79.8076923,% total dry mass
+muffle_loss_on_ignition,muffle_R-_3,R-,S-,3,,Total organic matter (%),79.9065421,% total dry mass
+muffle_loss_on_ignition,muffle_UV-_1,UV-,UV-,1,,Total organic matter (%),79.8122066,% total dry mass
+muffle_loss_on_ignition,muffle_UV-_2,UV-,UV-,2,,Total organic matter (%),79.7169811,% total dry mass
+sequential_fiber,fiber_run2_R-_1,R-,S-,1,2.0,Soluble C (%),13.76077427745619,% total organic fraction
+sequential_fiber,fiber_run2_R-_1,R-,S-,1,2.0,Hemicellulose (%),44.82107054241856,% total organic fraction
+sequential_fiber,fiber_run2_R-_1,R-,S-,1,2.0,Cellulose (%),36.96735393294732,% total organic fraction
+sequential_fiber,fiber_run2_R-_1,R-,S-,1,2.0,Lignin (%),4.450801247177925,% total organic fraction
+sequential_fiber,fiber_run2_R-_2,R-,S-,2,2.0,Soluble C (%),11.732875081484,% total organic fraction
+sequential_fiber,fiber_run2_R-_2,R-,S-,2,2.0,Hemicellulose (%),46.82533699077446,% total organic fraction
+sequential_fiber,fiber_run2_R-_2,R-,S-,2,2.0,Cellulose (%),36.70608496142119,% total organic fraction
+sequential_fiber,fiber_run2_R-_2,R-,S-,2,2.0,Lignin (%),4.735702966320343,% total organic fraction
+sequential_fiber,fiber_run2_R-_3,R-,S-,3,2.0,Soluble C (%),12.746868435954712,% total organic fraction
+sequential_fiber,fiber_run2_R-_3,R-,S-,3,2.0,Hemicellulose (%),44.82949535555409,% total organic fraction
+sequential_fiber,fiber_run2_R-_3,R-,S-,3,2.0,Cellulose (%),37.64084388680255,% total organic fraction
+sequential_fiber,fiber_run2_R-_3,R-,S-,3,2.0,Lignin (%),4.782792321688645,% total organic fraction
+sequential_fiber,fiber_run2_R+_1,R+,S+,1,2.0,Soluble C (%),16.46897911133524,% total organic fraction
+sequential_fiber,fiber_run2_R+_1,R+,S+,1,2.0,Hemicellulose (%),40.21128114808136,% total organic fraction
+sequential_fiber,fiber_run2_R+_1,R+,S+,1,2.0,Cellulose (%),38.64051801292318,% total organic fraction
+sequential_fiber,fiber_run2_R+_1,R+,S+,1,2.0,Lignin (%),4.679221727660221,% total organic fraction
+sequential_fiber,fiber_run2_R+_2,R+,S+,2,2.0,Soluble C (%),16.923128914004668,% total organic fraction
+sequential_fiber,fiber_run2_R+_2,R+,S+,2,2.0,Hemicellulose (%),39.83358434969809,% total organic fraction
+sequential_fiber,fiber_run2_R+_2,R+,S+,2,2.0,Cellulose (%),38.6479707369123,% total organic fraction
+sequential_fiber,fiber_run2_R+_2,R+,S+,2,2.0,Lignin (%),4.595315999384947,% total organic fraction
+sequential_fiber,fiber_run2_R+_3,R+,S+,3,2.0,Soluble C (%),13.05310438370914,% total organic fraction
+sequential_fiber,fiber_run2_R+_3,R+,S+,3,2.0,Hemicellulose (%),40.47307185546026,% total organic fraction
+sequential_fiber,fiber_run2_R+_3,R+,S+,3,2.0,Cellulose (%),41.20625718733066,% total organic fraction
+sequential_fiber,fiber_run2_R+_3,R+,S+,3,2.0,Lignin (%),5.26756657349994,% total organic fraction
+sequential_fiber,fiber_run2_UV-_1,UV-,UV-,1,2.0,Soluble C (%),14.542093067727045,% total organic fraction
+sequential_fiber,fiber_run2_UV-_1,UV-,UV-,1,2.0,Hemicellulose (%),44.65980734297082,% total organic fraction
+sequential_fiber,fiber_run2_UV-_1,UV-,UV-,1,2.0,Cellulose (%),36.33468218334757,% total organic fraction
+sequential_fiber,fiber_run2_UV-_1,UV-,UV-,1,2.0,Lignin (%),4.463417405954555,% total organic fraction
+sequential_fiber,fiber_run2_UV-_2,UV-,UV-,2,2.0,Soluble C (%),17.14009509685291,% total organic fraction
+sequential_fiber,fiber_run2_UV-_2,UV-,UV-,2,2.0,Hemicellulose (%),43.2272641312246,% total organic fraction
+sequential_fiber,fiber_run2_UV-_2,UV-,UV-,2,2.0,Cellulose (%),36.07466695483899,% total organic fraction
+sequential_fiber,fiber_run2_UV-_2,UV-,UV-,2,2.0,Lignin (%),3.5579738170835027,% total organic fraction
+sequential_fiber,fiber_run2_UV-_3,UV-,UV-,3,2.0,Soluble C (%),14.46355385755312,% total organic fraction
+sequential_fiber,fiber_run2_UV-_3,UV-,UV-,3,2.0,Hemicellulose (%),44.11982578338432,% total organic fraction
+sequential_fiber,fiber_run2_UV-_3,UV-,UV-,3,2.0,Cellulose (%),37.08393398093459,% total organic fraction
+sequential_fiber,fiber_run2_UV-_3,UV-,UV-,3,2.0,Lignin (%),4.332686378127975,% total organic fraction
+sequential_fiber,fiber_run3_R+_1,R+,S+,1,3.0,Soluble C (%),13.613507690240573,% total organic fraction
+sequential_fiber,fiber_run3_R+_1,R+,S+,1,3.0,Hemicellulose (%),44.096156139687295,% total organic fraction
+sequential_fiber,fiber_run3_R+_1,R+,S+,1,3.0,Cellulose (%),38.96891103087313,% total organic fraction
+sequential_fiber,fiber_run3_R+_1,R+,S+,1,3.0,Lignin (%),3.3214251391990057,% total organic fraction
+sequential_fiber,fiber_run3_R+_2,R+,S+,2,3.0,Soluble C (%),13.804283133400151,% total organic fraction
+sequential_fiber,fiber_run3_R+_2,R+,S+,2,3.0,Hemicellulose (%),44.25824339179208,% total organic fraction
+sequential_fiber,fiber_run3_R+_2,R+,S+,2,3.0,Cellulose (%),38.362190710487305,% total organic fraction
+sequential_fiber,fiber_run3_R+_2,R+,S+,2,3.0,Lignin (%),3.575282764320469,% total organic fraction
+sequential_fiber,fiber_run3_UV-_1,UV-,UV-,1,3.0,Soluble C (%),13.358793734834553,% total organic fraction
+sequential_fiber,fiber_run3_UV-_1,UV-,UV-,1,3.0,Hemicellulose (%),43.01762032960912,% total organic fraction
+sequential_fiber,fiber_run3_UV-_1,UV-,UV-,1,3.0,Cellulose (%),39.76143782763032,% total organic fraction
+sequential_fiber,fiber_run3_UV-_1,UV-,UV-,1,3.0,Lignin (%),3.8621481079260183,% total organic fraction
+sequential_fiber,fiber_run3_UV-_2,UV-,UV-,2,3.0,Soluble C (%),11.45667353772987,% total organic fraction
+sequential_fiber,fiber_run3_UV-_2,UV-,UV-,2,3.0,Hemicellulose (%),46.9296914223407,% total organic fraction
+sequential_fiber,fiber_run3_UV-_2,UV-,UV-,2,3.0,Cellulose (%),37.56548156154428,% total organic fraction
+sequential_fiber,fiber_run3_UV-_2,UV-,UV-,2,3.0,Lignin (%),4.048153478385141,% total organic fraction

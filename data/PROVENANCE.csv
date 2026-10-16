@@ -1,0 +1,20 @@
+relative_path,role,upstream_stage,notes
+amplicons/16S_feature_table.csv,processed input,ASV inference and taxonomy filtering,Paper-scope bacterial count table before final analysis-specific filters
+amplicons/16S_sample_metadata.csv,processed input,sample manifest,Bacterial library treatments and replicate metadata
+amplicons/16S_taxonomy.tsv,processed input,taxonomic classification,Taxonomy for bacterial ASVs
+amplicons/ITS_feature_table.tsv,processed input,ASV inference and taxonomy filtering,Paper-scope fungal count table before final analysis-specific filters
+amplicons/ITS_sample_metadata.tsv,processed input,sample manifest,Fungal library treatments and replicate metadata
+amplicons/ITS_taxonomy.tsv,processed input,taxonomic classification,Taxonomy for fungal ASVs
+functional_metagenomics/field_KO_relative_abundance.tsv,processed input,HUMAnN UniRef90 to KO regrouping and TSS,Unstratified field KO profiles; all crops retained because analysis script explicitly selects maize
+functional_metagenomics/field_metadata.csv,processed input,sample manifest,Field sample treatments and litter identities
+functional_metagenomics/microcosm_KO_relative_abundance.tsv,processed input,HUMAnN UniRef90 to KO regrouping and TSS,Unstratified microcosm KO profiles
+functional_metagenomics/microcosm_metadata.csv,processed input,sample manifest,Microcosm substrate and inoculum metadata
+functional_metagenomics/frozen_332_KO_functional_group_mapping.csv,curation input,treatment-blind KO evidence audit,Final one-primary-group mapping
+functional_metagenomics/functional_group_definitions.csv,curation input,hypothesis-driven ontology,Definitions and functional boundaries for 13 groups
+functional_metagenomics/full_7931_KO_universe_review.csv,curation audit,all detected KOs,Complete inclusion/exclusion audit universe
+functional_measurements/cleaned_functional_measurements.csv,processed input,measurement cleaning and unit derivation,Includes controls; primary model script selects inoculated microcosms
+chemistry/combined_replicate_level_source_data.csv,processed input,chemical/fiber/muffle assay integration,Analytical replicates summarized descriptively
+microclimate/field_only_anomaly_filtered.csv,processed input,logger concatenation and declared anomaly filtering,Primary microclimate series
+microclimate/all_concatenated_ibutton_series_field_only.csv,QC input,logger concatenation,Pre-filter field logger series
+microclimate/excluded_anomalous_values.csv,QC input,anomaly audit,Excluded logger observations and reasons
+sample_inclusion_ledger.csv,QC input,assay integration,Consolidated sample-level inclusion and exclusion record
