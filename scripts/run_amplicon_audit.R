@@ -218,12 +218,16 @@ export_genus <- function(ps,marker,experiment) {
     tick_labels <- setNames(paste(sample_order$sample_id,full_treatment(sample_order$Inoculum2),sep=" | "),sample_order$sample_id)
   }
   p <- ggplot(long,aes(x=sample_id,y=Relative_abundance,fill=Display))+
-    geom_col(width=.92)+facet_grid(~Treatment,scales="free_x",space="free_x",labeller=labeller(Treatment=if(experiment=="microcosm")function(x)stringr::str_wrap(unname(labels[x]),16) else label_value))+
+    geom_col(width=.92)+facet_grid(~Treatment,scales="free_x",space="free_x",labeller=labeller(Treatment=if(experiment=="microcosm")function(x)stringr::str_wrap(unname(labels[x]),12) else label_value))+
     scale_y_continuous(labels=scales::percent)+theme_bw(base_size=10)+
     theme(axis.text.x=element_blank(),axis.ticks.x=element_blank(),panel.grid=element_blank(),
           legend.position="right")+labs(x=NULL,y="Relative abundance",fill="Genus",title=marker)
   if(experiment=="microcosm")p<-p+scale_x_discrete(labels=tick_labels)+
-    scale_fill_discrete(labels=function(x)stringr::str_wrap(gsub("_"," ",x),27))+
+    scale_fill_discrete(labels=function(x) {
+      z<-stringr::str_wrap(gsub("_"," ",x),27)
+      z[x=="Allorhizobium-Neorhizobium-Pararhizobium-Rhizobium"]<-"Allorhizobium-\nNeorhizobium-\nPararhizobium-\nRhizobium"
+      z[x=="Methylobacterium-Methylorubrum"]<-"Methylobacterium-\nMethylorubrum";z
+    })+
     theme(axis.text.x=element_text(angle=90,hjust=1,vjust=.5,size=7.5),axis.ticks.x=element_line(),legend.text=element_text(size=9))+
     labs(title=if(marker=="ITS")"Fungi" else "Bacteria")
   p
