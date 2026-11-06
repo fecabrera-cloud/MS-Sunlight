@@ -27,7 +27,7 @@ Microcosm community tests use fixed inoculum, substrate, and interaction terms w
 
 ## Treatment terminology
 
-`S+`/`SusS+` denote full sunlight, `UV-`/`SusUV-` reduced UV, and `S-`/`SusS-` reduced UV and blue-green. `Inoc` prefixes identify inoculum origin. The `Sus` prefix identifies litter used as microcosm substrate. Display labels use the treatment names rather than these internal codes.
+`S+`/`SusS+` denote full sunlight, `UV-`/`SusUV-` reduced UV, and `S-`/`SusS-` reduced UV and blue-green. `Inoc` prefixes identify inoculum origin. The `Sus` prefix identifies litter used as microcosm substrate. Figures use treatment names; retained genus-volcano contrasts also use the internal codes defined above.
 
 ## Licensing
 
