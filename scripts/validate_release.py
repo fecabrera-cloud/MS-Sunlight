@@ -1,185 +1,88 @@
 #!/usr/bin/env python3
-"""Validate the portable publication repository and its reproduced outputs."""
-
-from __future__ import annotations
-
-import hashlib
-import json
-import math
+"""Validate scientific inputs, fitted results, figure assets, and portability."""
 from pathlib import Path
-import sys
-
+import hashlib,json,sys
+import numpy as np
 import pandas as pd
-
-
-ROOT = Path(__file__).resolve().parents[1]
-VALIDATION = ROOT / "validation"
-VALIDATION.mkdir(parents=True, exist_ok=True)
-RESULTS = ROOT / "results" / "reproduced"
-
-checks: list[dict] = []
-
-
-def record(name: str, passed: bool, detail: str) -> None:
-    checks.append({"check": name, "status": "PASS" if passed else "FAIL", "detail": detail})
-
-
-def require(name: str, condition: bool, detail: str) -> None:
-    record(name, bool(condition), detail)
-
-
-def close(value: float, expected: float, tolerance: float = 5e-4) -> bool:
-    return math.isfinite(value) and abs(value - expected) <= tolerance
-
-
-def read_csv(relative: str, **kwargs) -> pd.DataFrame:
-    path = ROOT / relative
-    require(f"file exists: {relative}", path.is_file() and path.stat().st_size > 0,
-            f"{path.stat().st_size if path.exists() else 0} bytes")
-    return pd.read_csv(path, **kwargs)
-
-
-# The package must be portable and self-contained.
-symlinks = [str(p.relative_to(ROOT)) for p in ROOT.rglob("*") if p.is_symlink()]
-require("no symbolic links", not symlinks, "; ".join(symlinks) or "none")
-
-forbidden = []
-# Assemble machine-specific tokens so this validator does not flag its own source.
-forbidden_tokens = ("/home/" + "felius", "wsl" + ".localhost")
-for folder in (ROOT / "scripts", ROOT / "docs"):
-    if not folder.exists():
-        continue
-    for path in folder.rglob("*"):
-        if path.is_file() and path.suffix.lower() in {".r", ".py", ".sh", ".md", ".txt", ".csv", ".tsv"}:
-            try:
-                text = path.read_text(encoding="utf-8")
-            except UnicodeDecodeError:
-                continue
-            if any(token in text for token in forbidden_tokens):
-                forbidden.append(str(path.relative_to(ROOT)))
-require("no machine-specific absolute paths", not forbidden, "; ".join(forbidden) or "none")
-
-# Frozen inputs and curation invariants.
-mapping = read_csv("data/functional_metagenomics/frozen_332_KO_functional_group_mapping.csv")
-definitions = read_csv("data/functional_metagenomics/functional_group_definitions.csv")
-universe = read_csv("data/functional_metagenomics/full_7931_KO_universe_review.csv")
-require("332 unique curated KOs", len(mapping) == 332 and mapping.ko_id.nunique() == 332,
-        f"rows={len(mapping)}, unique={mapping.ko_id.nunique()}")
-require("13 functional groups", mapping.functional_group.nunique() == 13 and len(definitions) == 13,
-        f"mapping={mapping.functional_group.nunique()}, definitions={len(definitions)}")
-require("one primary group per KO", not mapping.ko_id.duplicated().any(), "no duplicate ko_id")
-require("7,931-KO frozen universe", len(universe) == 7931 and universe.ko_id.nunique() == 7931,
-        f"rows={len(universe)}, unique={universe.ko_id.nunique()}")
-require("curated KOs belong to frozen universe", set(mapping.ko_id) <= set(universe.ko_id),
-        f"missing={len(set(mapping.ko_id)-set(universe.ko_id))}")
-
-# Final sample sizes from the reproduced analyses.
-amp = read_csv("results/reproduced/amplicons/amplicon_global_statistics.csv")
-expected_amp = {("field", "ITS"): 18, ("field", "16S"): 19,
-                ("microcosm", "ITS"): 40, ("microcosm", "16S"): 36}
-observed_amp = {(r.experiment, r.marker): int(r.N) for r in amp.itertuples()}
-require("amplicon final sample sizes", observed_amp == expected_amp,
-        f"observed={observed_amp}")
-
-fun = read_csv("results/reproduced/functional_metagenomics/global_statistics_all_experiments.csv")
-observed_fun = dict(zip(fun.experiment, fun.N.astype(int)))
-require("functional metagenomics final sample sizes", observed_fun == {"field": 19, "microcosm": 41},
-        f"observed={observed_fun}")
-require("field analyzes 13 variable groups", int(fun.loc[fun.experiment.eq("field"), "analyzed_groups"].iloc[0]) == 13,
-        str(fun.loc[fun.experiment.eq("field"), "analyzed_groups"].iloc[0]))
-require("microcosm analyzes 12 variable groups", int(fun.loc[fun.experiment.eq("microcosm"), "analyzed_groups"].iloc[0]) == 12,
-        str(fun.loc[fun.experiment.eq("microcosm"), "analyzed_groups"].iloc[0]))
-
-# Numerical anchors reported in the final audit.
-anchors = {
-    ("field", "ITS"): (1.0993, 0.12784, 0.2953, 0.6573),
-    ("field", "16S"): (1.18977, 0.12947, 0.1139, 0.1626),
-    ("microcosm", "ITS"): (12.7476, 0.40795, 0.0001, 0.1282),
-    ("microcosm", "16S"): (4.47695, 0.21342, 0.0001, 0.0230),
-}
-for key, target in anchors.items():
-    row = amp[(amp.experiment == key[0]) & (amp.marker == key[1])].iloc[0]
-    values = (row.F, row.R2, row.p, row.dispersion_p)
-    passed = all(close(float(v), float(t), 7e-4) for v, t in zip(values, target))
-    require(f"amplicon numerical anchor: {key[0]} {key[1]}", passed,
-            f"F={row.F:.5g}, R2={row.R2:.5g}, p={row.p:.5g}, dispersion_p={row.dispersion_p:.5g}")
-
-fun_targets = {
-    "field": (2.39068, 0.23008, 0.0159, 0.0233),
-    "microcosm": (4.1345, 0.178716, 0.0010, 0.3060),
-}
-for experiment, target in fun_targets.items():
-    row = fun[fun.experiment.eq(experiment)].iloc[0]
-    values = (row.F, row.R2, row.p, row.dispersion_p)
-    passed = all(close(float(v), float(t), 8e-4) for v, t in zip(values, target))
-    require(f"functional numerical anchor: {experiment}", passed,
-            f"F={row.F:.5g}, R2={row.R2:.5g}, p={row.p:.5g}, dispersion_p={row.dispersion_p:.5g}")
-
-measurements = read_csv("results/reproduced/functional_measurements/omnibus_tests.csv")
-require("four functional-measurement endpoints", len(measurements) == 4,
-        f"rows={len(measurements)}")
-require("functional-measurement N values", set(measurements.N.astype(int)) == {43, 46},
-        f"N={sorted(measurements.N.astype(int).unique())}")
-
-table1 = read_csv("results/reproduced/chemistry/Table_1_descriptive_no_inference.csv")
-require("three descriptive substrate rows", len(table1) == 3, f"rows={len(table1)}")
-
-s1 = read_csv("tables/Table_S1_functional_group_definitions.csv")
-s2 = read_csv("tables/Table_S2_complete_KO_mapping.csv")
-s3 = read_csv("tables/Table_S3_functional_group_sensitivity.csv")
-require("Table S1 has 13 groups", len(s1) == 13, f"rows={len(s1)}")
-require("Table S2 has 332 KOs", len(s2) == 332 and s2.ko_id.nunique() == 332,
-        f"rows={len(s2)}, unique={s2.ko_id.nunique()}")
-require("Table S3 has 25 analyzed group/experiment rows", len(s3) == 25, f"rows={len(s3)}")
-
-# Final figure assets are intentionally not regenerated by run_all.sh.
-figure_names = ["Figure1.pptx"] + [f"Figure{i}.pdf" for i in range(2, 7)] + [f"FigS{i}.pdf" for i in range(1, 11)]
-missing_figures = []
-for name in figure_names:
-    path = ROOT / "figures" / "final" / name
-    if not path.is_file() or path.stat().st_size == 0:
-        missing_figures.append(name)
-require("final manuscript figure assets present", not missing_figures,
-        ", ".join(missing_figures) or "Figures 1-6 and S1-S10 present")
-
-# Basic PDF/PNG integrity signatures.
-bad_signatures = []
-for path in (ROOT / "figures" / "final").iterdir():
-    if not path.is_file():
-        continue
-    head = path.read_bytes()[:8]
-    if path.suffix.lower() == ".pdf" and not head.startswith(b"%PDF"):
-        bad_signatures.append(path.name)
-    if path.suffix.lower() == ".png" and head != b"\x89PNG\r\n\x1a\n":
-        bad_signatures.append(path.name)
-require("figure file signatures", not bad_signatures, ", ".join(bad_signatures) or "valid")
-
-failed = [item for item in checks if item["status"] == "FAIL"]
-report_lines = [
-    "Publication repository validation",
-    "=================================",
-    "Repository: publication_repository (resolved relative to this script)",
-    f"Checks: {len(checks)}; passed: {len(checks)-len(failed)}; failed: {len(failed)}",
-    "",
-]
-report_lines.extend(f"[{item['status']}] {item['check']}: {item['detail']}" for item in checks)
-(VALIDATION / "VALIDATION_REPORT.txt").write_text("\n".join(report_lines) + "\n", encoding="utf-8")
-(VALIDATION / "VALIDATION_REPORT.json").write_text(
-    json.dumps({"passed": not failed, "checks": checks}, indent=2) + "\n", encoding="utf-8"
-)
-
-# Hash every release file except the manifest itself and ephemeral caches.
-manifest_rows = []
-for path in sorted(ROOT.rglob("*")):
-    if not path.is_file() or path.name == "MANIFEST.sha256" or "__pycache__" in path.parts:
-        continue
-    digest = hashlib.sha256(path.read_bytes()).hexdigest()
-    manifest_rows.append(f"{digest}  {path.relative_to(ROOT).as_posix()}")
-(VALIDATION / "MANIFEST.sha256").write_text("\n".join(manifest_rows) + "\n", encoding="utf-8")
-
-print("\n".join(report_lines[:5]))
+import pypdfium2 as pdfium
+from docx import Document
+ROOT=Path(__file__).resolve().parents[1]
+OUT=ROOT/'results/reproduced';TARGET=ROOT/'data/validation_targets';DEST=ROOT/'validation';DEST.mkdir(exist_ok=True)
+checks=[]
+def check(name,condition,detail=''):
+ checks.append(dict(check=name,status='PASS' if bool(condition) else 'FAIL',detail=str(detail)))
+def compare(name,actual,expected,keys,values,tolerance=1e-6):
+ a=pd.read_csv(actual);b=pd.read_csv(expected)
+ x=a.merge(b,on=keys,suffixes=('_actual','_expected'),validate='one_to_one')
+ check(name+' row identity',len(x)==len(a)==len(b),f'{len(a)} / {len(b)} rows')
+ for v in values:
+  va=x[v+'_actual'].to_numpy(float);vb=x[v+'_expected'].to_numpy(float)
+  check(name+' '+v,np.allclose(va,vb,rtol=tolerance,atol=tolerance,equal_nan=True),float(np.nanmax(abs(va-vb))) if np.isfinite(va-vb).any() else 'NA')
+ return a
+mapping=pd.read_csv(ROOT/'data/functional_metagenomics/frozen_332_KO_functional_group_mapping.csv')
+universe=pd.read_csv(ROOT/'data/functional_metagenomics/full_7931_KO_universe_review.csv')
+check('Unique primary KO assignments',len(mapping)==332 and mapping.ko_id.nunique()==332 and mapping.functional_group.nunique()==13)
+check('Complete KO universe',len(universe)==7931 and universe.ko_id.nunique()==7931 and set(mapping.ko_id)<=set(universe.ko_id))
+amp=pd.read_csv(OUT/'amplicons/amplicon_global_statistics.csv')
+expected={('field','ITS'):(18,416,416),('field','16S'):(19,961,960),('microcosm','ITS'):(40,240,240),('microcosm','16S'):(36,634,634)}
+for (experiment,marker),(N,pre,post) in expected.items():
+ a=amp[(amp.experiment==experiment)&(amp.marker==marker)].iloc[0]
+ check(f'{experiment} {marker} sample and ASV counts',(int(a.N),int(a.taxa_after_prevalence),int(a.taxa_after_rarefaction))==(N,pre,post))
+ check(f'{experiment} {marker} prevalence floor',int(a.minimum_prevalence_samples)==max(2,int(np.ceil(.05*N))) and a.minimum_observed_asv_prevalence>=2)
+ if experiment=='field':
+  for suffix in ['filtered_ASV_counts','ASV_relative_abundance','genus_relative_abundance','genus_composition_summary','phylum_composition_summary']:
+   g=pd.read_csv(OUT/f'amplicons/field_{marker}_{suffix}.csv');f=pd.read_csv(ROOT/f'data/amplicons/derived/field_{marker}_{suffix}.csv')
+   check(f'Field {marker} derived {suffix}',g.shape==f.shape and g.equals(f))
+ else:
+  a=pd.read_csv(OUT/f'amplicons/microcosm/{marker}/sequential_permanova.csv');b=pd.read_csv(TARGET/'microcosm_amplicon_permanova.csv');b=b[b.marker==marker]
+  for c in ['F','p','R2']:check(marker+' factorial '+c,np.allclose(a[c],b[c],rtol=1e-7,atol=1e-9,equal_nan=True))
+  disp=pd.read_csv(OUT/f'amplicons/microcosm/{marker}/dispersion_tests.csv');ref=pd.read_csv(TARGET/'microcosm_amplicon_dispersion.csv');ref=ref[ref.dataset.eq('Microcosm '+marker)]
+  check(marker+' PERMDISP',np.allclose(disp.p,ref.p,atol=1e-12) and np.allclose(disp.F,ref.F,atol=1e-9))
+  partition=pd.read_csv(OUT/f'amplicons/microcosm/{marker}/sequential_variance_partition.csv')
+  check(marker+' variance sum',abs(partition.proportion.sum()-1)<1e-12)
+  order=pd.read_csv(OUT/f'amplicons/microcosm_{marker}_composition_sample_order.csv')
+  origins=['InocS+','InocUV-','InocS-'];substrates=['SusS+','SusUV-','SusS-']
+  tuples=[(substrates.index(r.Treatment),origins.index(r.Inoculum2),int(r.Block),r.sample_id) for r in order.itertuples()]
+  check(marker+' composition order',tuples==sorted(tuples) and len(order)==N)
+field=amp[amp.experiment=='field'];ref=pd.read_csv(TARGET/'field_amplicon_statistics.csv')
+for c in ['F','R2','p','dispersion_p']:
+ z=field.merge(ref,on='marker',suffixes=('_a','_b'));check('Field amplicon '+c,np.allclose(z[c+'_a'],z[c+'_b'],atol=1e-8))
+compare('Field functional profile',OUT/'functional_metagenomics/field/global_statistics.csv',TARGET/'functional_field_statistics.csv',['experiment'],['N','F','R2','p','dispersion_p'])
+compare('Microcosm functional profile',OUT/'functional_metagenomics/microcosm/sequential_permanova.csv',TARGET/'functional_microcosm_permanova.csv',['term'],['F','R2','p'])
+groups=compare('Functional-group models',OUT/'functional_metagenomics/microcosm/factorial_anova.csv',TARGET/'functional_group_anova.csv',['functional_group','term'],['F','p','q_BH'])
+measure=compare('Measurement models',OUT/'functional_measurements/factorial_anova.csv',TARGET/'measurements_anova.csv',['outcome','term'],['F','p','p_BH'])
+compare('Measurement substrate contrasts',OUT/'functional_measurements/substrate_pairwise_Tukey.csv',TARGET/'measurement_substrate_contrasts.csv',['outcome','group1','group2'],['estimate','p_Tukey'])
+compare('Genus overlap',OUT/'amplicon_comparison/data/venn_counts.csv',TARGET/'genus_overlap_counts.csv',['marker'],['field_only','shared','microcosm_only'])
+for frame,qcol,n,label in [(groups,'q_BH',12,'functional group'),(measure,'p_BH',4,'measurement')]:
+ for term,g in frame.groupby('term',sort=False):
+  values=g.p.to_numpy();idx=np.argsort(values);q=np.minimum.accumulate((values[idx]*n/np.arange(1,n+1))[::-1])[::-1].clip(0,1)
+  check(label+' BH '+term,len(g)==n and np.allclose(g[qcol].to_numpy()[idx],q,atol=1e-12))
+check('Four measurement substrate effects',measure[measure.term=='substrate'].p_BH.lt(.05).all())
+check('Measurement inoculum and interaction tests',measure[measure.term!='substrate'].p_BH.ge(.05).all())
+for table,n in [('Table_S1_functional_group_definitions.csv',13),('Table_S2_complete_KO_mapping.csv',332)]:check(table,len(pd.read_csv(ROOT/'tables'/table))==n)
+assets=json.loads((ROOT/'docs/figure_manifest.json').read_text())
+for a in assets:
+ f=ROOT/'figures/final'/a['file'];check(a['file']+' checksum',f.exists() and hashlib.sha256(f.read_bytes()).hexdigest()==a['sha256'])
+ if f.suffix=='.pdf':
+  doc=pdfium.PdfDocument(f);check(a['file']+' single page',len(doc)==1);doc.close()
+check('Final figure set',{x['file'] for x in assets}=={'Figure1.pptx',*[f'Figure{i}.pdf' for i in range(2,7)],*[f'FigS{i}.pdf' for i in range(1,12)]})
+doc=Document(ROOT/'figures/final/Supplementary-Figures.docx')
+check('Supplementary bundle has eleven figures',len(doc.inline_shapes)==11 and sum(p.text.startswith('Figure S') for p in doc.paragraphs)==11)
+check('Supplementary table bundle',len(Document(ROOT/'tables/Supplementary_Tables_S1-S2.docx').tables)==2)
+for folder in ['scripts','docs']:
+ for p in (ROOT/folder).rglob('*'):
+  if p.is_file() and p.suffix.lower() in ['.r','.py','.sh','.md','.json','.txt']:
+   s=p.read_text();check('Portable '+str(p.relative_to(ROOT)),('/home/'+'felius') not in s and ('wsl'+'.localhost') not in s)
+failed=[c for c in checks if c['status']=='FAIL']
+report={'passed':not failed,'checks':checks}
+(DEST/'VALIDATION_REPORT.json').write_text(json.dumps(report,indent=2)+'\n')
+(DEST/'VALIDATION_REPORT.txt').write_text('\n'.join(f"[{c['status']}] {c['check']}: {c['detail']}" for c in checks)+'\n')
+manifest=[]
+for p in sorted(ROOT.rglob('*')):
+ if p.is_file() and not any(x in p.relative_to(ROOT).parts for x in ['.git','results','validation','__pycache__']):manifest.append(f'{hashlib.sha256(p.read_bytes()).hexdigest()}  {p.relative_to(ROOT)}')
+(DEST/'MANIFEST.sha256').write_text('\n'.join(manifest)+'\n')
+print(f'{len(checks)} release checks; {len(failed)} failed.')
 if failed:
-    for item in failed:
-        print(f"FAIL: {item['check']}: {item['detail']}", file=sys.stderr)
-    raise SystemExit(1)
-print("All release checks passed.")
+ for c in failed:print(c)
+ raise SystemExit(1)
+print('All release checks passed.')

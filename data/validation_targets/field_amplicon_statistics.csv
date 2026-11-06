@@ -1,0 +1,3 @@
+experiment,marker,N,minimum_prevalence_samples,minimum_observed_asv_prevalence,taxa_after_prevalence,taxa_after_rarefaction,assigned_genera_after_rarefaction,rarefaction_depth,NMDS_stress,F,R2,p,dispersion_F,dispersion_p
+field,ITS,18,2,2,416,416,79,33507,0.171930325724213,1.11898448493491,0.129827880174373,0.283,0.605621665256617,0.536
+field,16S,19,2,2,961,960,185,30244,0.109902713801727,1.2044797686198,0.130857995117351,0.109,2.01307176773658,0.1484

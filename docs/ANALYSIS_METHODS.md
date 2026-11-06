@@ -1,0 +1,21 @@
+# Statistical methods
+
+## Amplicons
+
+Technical extraction failures and libraries with fewer than 15,000 target-marker reads are excluded before prevalence filtering. Within each experiment and marker, an ASV must occur in at least `max(2, ceiling(0.05 * N))` samples before rarefaction. The field extraction failure represented by P030, S109, and 16s_109 is excluded across assays. Original count and taxonomy tables are retained; derived field count and relative-abundance tables are supplied for comparison with regenerated outputs.
+
+Community distances use Bray–Curtis dissimilarities on rarefied ASV counts. Field tests retain the field blocking design. Microcosm PERMANOVA uses `distance ~ inoculum * substrate`, with sequential terms entered as inoculum, substrate, interaction and 9,999 permutations restricted within experimental block. Block is not a fixed predictor. R-squared partitions depend on term order. The supplied permutation matrices preserve exact Monte Carlo draws. Stored NMDS coordinates fix the published orientation; a regenerated ordination is checked by Procrustes alignment. PERMDISP covers substrate, inoculum, and factorial cells. Conditional comparisons use BH correction across 18 tests per dataset and report their attainable permutation resolution.
+
+Genus composition and differential abundance use counts before rarefaction. The existing DESeq2 analysis estimates common substrate differences with fixed nuisance blocking: field block for field data, and inoculum-by-block for microcosms. DESeq2 does not fit random block effects here, and this genus analysis does not include substrate-by-inoculum interaction. It therefore addresses a different question from the factorial community tests. All genera with at least ten retained counts are eligible; filtering and adjusted p-values follow the implemented DESeq2 procedure. No microcosm genus model change is introduced in this release.
+
+## Functional potential
+
+The frozen 332-KO mapping assigns each KO to one of thirteen groups. Relative abundances retain the denominator of the complete KO profile. The field dataset contains nineteen samples and thirteen variable groups; the microcosm dataset contains forty-one samples and twelve variable groups, excluding all-zero lignin-associated oxidation. Group Z scores and Euclidean distances define the functional ordination. Field multivariate inference retains its original field-block design; microcosm inference uses the same sequential factorial procedure as the amplicon analysis.
+
+Microcosm group models are `relative_abundance_percent ~ inoculum * substrate + (1 | block)`, fitted by REML with sum contrasts and Type III Satterthwaite F tests. Internal linear rescaling improves optimization while leaving F tests unchanged. Means and differences are returned to percentage units. BH correction is across the twelve groups separately for each term. Equal-weight substrate averages and inoculum-specific estimates are both computed. Pointwise 95% intervals describe means; pairwise intervals and p-values use Tukey adjustment within each family of three comparisons. Those families do not provide one global correction across every contrast. Field group models retain their fixed field blocking term.
+
+## Measured functions
+
+Microcosm responses use fixed inoculum, substrate, and interaction effects with a random block intercept, REML, sum contrasts, and Type III Satterthwaite tests. Dry-mass loss retains its percentage scale. Biomass, enzyme activity, and the biomass-to-respiration ratio use natural logs. Substrate means weight inoculum origins equally, with logged responses back-transformed to geometric means. BH correction covers the four responses separately for each term; Tukey correction covers the three substrate comparisons within each response. Residual diagnostics accompany fitted models.
+
+The biomass-to-respiration ratio divides a standing biomass estimate by the integrated respiration concentration-rate index. It is a relative allocation index, not a direct physiological measurement of CUE. The conditioned substrates and inoculum sources were pooled before incubation. Bottle replication does not independently replicate field-treatment pools. Gene representation measures functional potential rather than expression or measured decomposition activity.
