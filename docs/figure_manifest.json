@@ -1,0 +1,70 @@
+[
+  {
+    "file": "Figure1.pptx",
+    "sha256": "16d55a5a07e73ffd32cec1989720a665cff823d39048f1555baa4861489a7cd5"
+  },
+  {
+    "file": "Figure2.pdf",
+    "sha256": "923b32bcf221f32ad51846e4744a69513606ce4e0278ba287b6b78b368466e38"
+  },
+  {
+    "file": "Figure3.pdf",
+    "sha256": "16d6b56f4b66f4ee32cac845a82fca158af24e5a694b41da889ddf7e0d10db60"
+  },
+  {
+    "file": "Figure4.pdf",
+    "sha256": "174979fa5e2a010dd48d67a2e5d43821abe7f7b3a6e07396606cfa91816a60e1"
+  },
+  {
+    "file": "Figure5.pdf",
+    "sha256": "8b3dc1969d7d2f0c9a556fd21866672a09f13eb2db0765e1469c59fae8cdc21d"
+  },
+  {
+    "file": "Figure6.pdf",
+    "sha256": "e5338ea7e99375c506986df50a77b8a6e75b5dbf8c263593bb6dc552f83dc5db"
+  },
+  {
+    "file": "FigS1.pdf",
+    "sha256": "c471ed970c999748c907f6b7de94b62250e111260e63c89adba7b61cba58a1e5"
+  },
+  {
+    "file": "FigS2.pdf",
+    "sha256": "860282e6b004cbc00eedff0579043f5b6717a8889ccd3f376c83065eaa5e9ba2"
+  },
+  {
+    "file": "FigS3.pdf",
+    "sha256": "f6a24848b50b78af6e045a74e2cc03098056cfad235bd49c6dd7f1994611f8c5"
+  },
+  {
+    "file": "FigS4.pdf",
+    "sha256": "e188201d43a34ff31a72f160757fe39b782cabc9e1e5c5688a59c16731bdbda8"
+  },
+  {
+    "file": "FigS5.pdf",
+    "sha256": "ddb6fd9a9b0da253a0fe78793c41839b37ab493705d2acec43b140ac41f8ec0e"
+  },
+  {
+    "file": "FigS6.pdf",
+    "sha256": "5aa00f225c3a9599308c89b07e9ad83a57ff40fd4edc74a680bd1971c5844f17"
+  },
+  {
+    "file": "FigS7.pdf",
+    "sha256": "e55283b66a2ca44c5a1559584e487f5dea1b2fdc9bd66721753ec0d497963272"
+  },
+  {
+    "file": "FigS8.pdf",
+    "sha256": "27c8282aa710f8b0e65e258b434a84834c7bed2a8b139c8574a44393280eb1ff"
+  },
+  {
+    "file": "FigS9.pdf",
+    "sha256": "2a964c3fae2aedd0ee106c436d96d312ad633a46434c36f404ff08205983e72f"
+  },
+  {
+    "file": "FigS10.pdf",
+    "sha256": "71b0cf138f354625210b2ea7f3049ea5a5055860b7636bf830b7310379f2e6fb"
+  },
+  {
+    "file": "FigS11.pdf",
+    "sha256": "baa80352908d5d33fba3205b640e1d79d96001ec8543bef3ab856b45e8d044e8"
+  }
+]

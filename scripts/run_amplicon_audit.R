@@ -213,16 +213,18 @@ export_genus <- function(ps,marker,experiment) {
   write.csv(long,file.path(out_root,paste0(experiment,"_",marker,"_top12_composition_data.csv")),row.names=FALSE)
   if(experiment=="microcosm") {
     sample_order <- md[order(md$Treatment,full_treatment(md$Inoculum2),as.numeric(as.character(md$Block)),md$sample_id),]
+    write.csv(sample_order[,c("sample_id","Treatment","Inoculum2","Block")],file.path(out_root,paste0(experiment,"_",marker,"_composition_sample_order.csv")),row.names=FALSE)
     long$sample_id <- factor(long$sample_id,levels=sample_order$sample_id)
     tick_labels <- setNames(paste(sample_order$sample_id,full_treatment(sample_order$Inoculum2),sep=" | "),sample_order$sample_id)
   }
   p <- ggplot(long,aes(x=sample_id,y=Relative_abundance,fill=Display))+
-    geom_col(width=.92)+facet_grid(~Treatment,scales="free_x",space="free_x",labeller=labeller(Treatment=labels))+
+    geom_col(width=.92)+facet_grid(~Treatment,scales="free_x",space="free_x",labeller=labeller(Treatment=if(experiment=="microcosm")function(x)stringr::str_wrap(unname(labels[x]),16) else label_value))+
     scale_y_continuous(labels=scales::percent)+theme_bw(base_size=10)+
     theme(axis.text.x=element_blank(),axis.ticks.x=element_blank(),panel.grid=element_blank(),
           legend.position="right")+labs(x=NULL,y="Relative abundance",fill="Genus",title=marker)
   if(experiment=="microcosm")p<-p+scale_x_discrete(labels=tick_labels)+
-    theme(axis.text.x=element_text(angle=90,hjust=1,vjust=.5,size=7),axis.ticks.x=element_line())+
+    scale_fill_discrete(labels=function(x)stringr::str_wrap(gsub("_"," ",x),27))+
+    theme(axis.text.x=element_text(angle=90,hjust=1,vjust=.5,size=7.5),axis.ticks.x=element_line(),legend.text=element_text(size=9))+
     labs(title=if(marker=="ITS")"Fungi" else "Bacteria")
   p
 }
@@ -331,15 +333,15 @@ for(exp in selected_experiments) {
     plot_layout(guides="collect") & theme(legend.position="bottom")
   pc <- results[[paste(exp,"ITS")]]$composition + results[[paste(exp,"16S")]]$composition +
     plot_annotation(title=if(exp=="field")"Dominant genera under field sunlight exposure" else
-      "Dominant genera after litter photodegradation",
+      "Dominant genera in the microcosm experiment",
       tag_levels="A",
       theme=theme(plot.title=element_text(size=16,face="bold",hjust=.5),
                   plot.tag=element_text(size=16,face="bold"),
                   plot.margin=margin(14,5,5,5)))
   ggsave(file.path(out_root,paste0(exp,"_amplicon_NMDS.pdf")),pn,width=12,height=5.7)
   ggsave(file.path(out_root,paste0(exp,"_amplicon_NMDS.png")),pn,width=12,height=5.7,dpi=300)
-  ggsave(file.path(out_root,paste0(exp,"_top12_genera.pdf")),pc,width=14,height=6)
-  ggsave(file.path(out_root,paste0(exp,"_top12_genera.png")),pc,width=14,height=6,dpi=300)
+  ggsave(file.path(out_root,paste0(exp,"_top12_genera.pdf")),pc,width=14,height=if(exp=="microcosm")8 else 6)
+  ggsave(file.path(out_root,paste0(exp,"_top12_genera.png")),pc,width=14,height=if(exp=="microcosm")8 else 6,dpi=300)
 }
 all_global <- bind_rows(lapply(results,`[[`,"global"))
 write.csv(all_global,file.path(out_root,"amplicon_global_statistics.csv"),row.names=FALSE)
