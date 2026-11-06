@@ -11,9 +11,20 @@ suppressPackageStartupMessages({
 set.seed(42)
 script_arg <- commandArgs(trailingOnly=FALSE)[grep("^--file=",commandArgs(trailingOnly=FALSE))]
 repo_root <- normalizePath(file.path(dirname(sub("^--file=", "", script_arg)), ".."), mustWork=TRUE)
-data_root <- file.path(repo_root, "data", "amplicons")
-out_root <- file.path(repo_root, "results", "reproduced", "amplicons")
+source_root <- Sys.getenv("MS_SUNLIGHT_SOURCE_ROOT", unset=repo_root)
+data_root <- file.path(source_root, "data", "amplicons")
+out_root <- Sys.getenv(
+  "AMPLICON_OUTPUT_ROOT",
+  unset=file.path(repo_root, "results", "reproduced", "amplicons")
+)
+selected_experiments <- trimws(strsplit(
+  Sys.getenv("AMPLICON_EXPERIMENTS", unset="field,microcosm"), ",", fixed=TRUE
+)[[1]])
+if(!all(selected_experiments %in% c("field", "microcosm"))) {
+  stop("AMPLICON_EXPERIMENTS must contain only 'field' and/or 'microcosm'.")
+}
 dir.create(out_root, recursive=TRUE, showWarnings=FALSE)
+source(file.path(repo_root,"scripts","factorial_permanova.R"))
 
 colours <- c("S+"="#E3AC18", "UV-"="#77BCE8", "S-"="#555555",
              "SusS+"="#E3AC18", "SusUV-"="#77BCE8", "SusS-"="#555555")
@@ -124,8 +135,11 @@ standardize_subset <- function(ps, marker, experiment) {
                        exclusion_reason=exclusion_reason)
   ps <- prune_samples(included,ps); ps <- prune_taxa(taxa_sums(ps)>0,ps)
   # The declared prevalence filter is calculated after experiment/marker subsetting.
+  # A two-sample floor prevents a nominal 5% filter from retaining singleton ASVs
+  # in small experiment-by-marker datasets.
   m <- as(otu_table(ps),"matrix"); if(!taxa_are_rows(ps)) m <- t(m)
-  keep_tax <- rowSums(m>0) >= ceiling(0.05*ncol(m))
+  minimum_samples <- max(2L, ceiling(0.05*ncol(m)))
+  keep_tax <- rowSums(m>0) >= minimum_samples
   ps <- prune_taxa(keep_tax,ps); ps <- prune_taxa(taxa_sums(ps)>0,ps)
   list(ps=ps,ledger=ledger)
 }
@@ -163,24 +177,68 @@ export_genus <- function(ps,marker,experiment) {
   write.csv(md,file.path(out_root,paste0(experiment,"_",marker,"_metadata.csv")),row.names=FALSE)
 
   rel <- sweep(agg,2,colSums(agg),"/")
+  genus_summary <- data.frame(
+    genus=rownames(rel),
+    mean_relative_abundance=rowMeans(rel),
+    sd_relative_abundance=apply(rel,1,sd),
+    stringsAsFactors=FALSE
+  ) %>% arrange(desc(mean_relative_abundance))
+  write.csv(genus_summary,
+            file.path(out_root,paste0(experiment,"_",marker,"_genus_composition_summary.csv")),
+            row.names=FALSE)
+
+  tx <- data.frame(tax_table(ps),check.names=FALSE,stringsAsFactors=FALSE)
+  phylum <- trimws(as.character(tx$Phylum))
+  phylum[is.na(phylum)|phylum==""] <- "Unclassified"
+  phylum_agg <- rowsum(m,group=phylum,reorder=FALSE)
+  phylum_rel <- sweep(phylum_agg,2,colSums(phylum_agg),"/")
+  phylum_summary <- data.frame(
+    phylum=rownames(phylum_rel),
+    mean_relative_abundance=rowMeans(phylum_rel),
+    sd_relative_abundance=apply(phylum_rel,1,sd),
+    stringsAsFactors=FALSE
+  ) %>% arrange(desc(mean_relative_abundance))
+  write.csv(phylum_summary,
+            file.path(out_root,paste0(experiment,"_",marker,"_phylum_composition_summary.csv")),
+            row.names=FALSE)
+
+  write.csv(data.frame(sample_id=colnames(rel),t(rel),check.names=FALSE),
+    file.path(out_root,paste0(experiment,"_",marker,"_genus_relative_abundance.csv")),row.names=FALSE)
   top <- names(sort(rowMeans(rel),decreasing=TRUE))[seq_len(min(12,nrow(rel)))]
   long <- as.data.frame(t(rel),check.names=FALSE) %>% tibble::rownames_to_column("sample_id") %>%
     pivot_longer(-sample_id,names_to="Genus",values_to="Relative_abundance") %>%
     mutate(Display=ifelse(Genus %in% top,Genus,"Other")) %>%
     group_by(sample_id,Display) %>% summarise(Relative_abundance=sum(Relative_abundance),.groups="drop") %>%
-    left_join(md[,c("sample_id","Treatment")],by="sample_id")
+    left_join(md[,c("sample_id","Treatment","Inoculum2","Block")],by="sample_id")
   write.csv(long,file.path(out_root,paste0(experiment,"_",marker,"_top12_composition_data.csv")),row.names=FALSE)
+  if(experiment=="microcosm") {
+    sample_order <- md[order(md$Treatment,full_treatment(md$Inoculum2),as.numeric(as.character(md$Block)),md$sample_id),]
+    long$sample_id <- factor(long$sample_id,levels=sample_order$sample_id)
+    tick_labels <- setNames(paste(sample_order$sample_id,full_treatment(sample_order$Inoculum2),sep=" | "),sample_order$sample_id)
+  }
   p <- ggplot(long,aes(x=sample_id,y=Relative_abundance,fill=Display))+
-    geom_col(width=.92)+facet_grid(~Treatment,scales="free_x",space="free_x")+
+    geom_col(width=.92)+facet_grid(~Treatment,scales="free_x",space="free_x",labeller=labeller(Treatment=labels))+
     scale_y_continuous(labels=scales::percent)+theme_bw(base_size=10)+
     theme(axis.text.x=element_blank(),axis.ticks.x=element_blank(),panel.grid=element_blank(),
           legend.position="right")+labs(x=NULL,y="Relative abundance",fill="Genus",title=marker)
+  if(experiment=="microcosm")p<-p+scale_x_discrete(labels=tick_labels)+
+    theme(axis.text.x=element_text(angle=90,hjust=1,vjust=.5,size=7),axis.ticks.x=element_line())+
+    labs(title=if(marker=="ITS")"Fungi" else "Bacteria")
   p
 }
 
 analyse_one <- function(ps,marker,experiment) {
   prepared <- standardize_subset(ps,marker,experiment)
   ps <- prepared$ps
+  taxa_after_prevalence <- ntaxa(ps)
+  minimum_prevalence_samples <- max(2L, ceiling(0.05*nsamples(ps)))
+  filtered_asv_matrix <- as(otu_table(ps),"matrix")
+  if(!taxa_are_rows(ps)) filtered_asv_matrix <- t(filtered_asv_matrix)
+  minimum_observed_asv_prevalence <- min(rowSums(filtered_asv_matrix>0))
+  pre <- as(otu_table(ps),"matrix");if(taxa_are_rows(ps))pre<-t(pre)
+  write.csv(data.frame(sample_id=rownames(pre),pre,check.names=FALSE),file.path(out_root,paste0(experiment,"_",marker,"_filtered_ASV_counts.csv")),row.names=FALSE)
+  ra <- sweep(pre,1,rowSums(pre),"/")
+  write.csv(data.frame(sample_id=rownames(ra),ra,check.names=FALSE),file.path(out_root,paste0(experiment,"_",marker,"_ASV_relative_abundance.csv")),row.names=FALSE)
   md <- data.frame(sample_data(ps),check.names=FALSE)
   depth <- sample_sums(ps)
   ledger <- prepared$ledger
@@ -189,12 +247,36 @@ analyse_one <- function(ps,marker,experiment) {
   write.csv(ledger,file.path(out_root,paste0(experiment,"_",marker,"_sample_ledger.csv")),row.names=FALSE)
   rare_depth <- min(depth)
   rare <- rarefy_even_depth(ps,sample.size=rare_depth,rngseed=42,replace=FALSE,verbose=FALSE)
+  rare_tax <- data.frame(tax_table(rare), check.names=FALSE, stringsAsFactors=FALSE)
+  assigned_genera <- trimws(as.character(rare_tax$Genus))
+  assigned_genera <- assigned_genera[!is.na(assigned_genera) & assigned_genera != ""]
+  assigned_genera_after_rarefaction <- length(unique(assigned_genera))
   mat <- as(otu_table(rare),"matrix"); if(taxa_are_rows(rare))mat<-t(mat)
   md <- data.frame(sample_data(rare),check.names=FALSE)
   set.seed(42); ord <- metaMDS(mat,distance="bray",k=2,trymax=200,autotransform=FALSE,trace=0)
   scores <- as.data.frame(scores(ord,"sites")); scores$sample_id<-rownames(scores)
   scores <- cbind(scores,md[rownames(scores),c("Treatment","Inoculum2","Block","PermutationBlock"),drop=FALSE])
   d <- vegdist(mat,"bray")
+  if(experiment=="microcosm") {
+    md2 <- data.frame(sample_id=rownames(md),inoculum=full_treatment(md$Inoculum2),substrate=full_treatment(md$Treatment),block=as.character(md$Block))
+    ref <- file.path(repo_root,"data","ordination_reference")
+    xy <- read.csv(file.path(ref,paste0("microcosm_",marker,"_ordination_scores.csv")))
+    stopifnot(identical(xy$sample_id,rownames(mat)))
+    # NMDS has arbitrary rotation/reflection; align to the published orientation.
+    aligned <- vegan::procrustes(as.matrix(xy[,c("Axis1","Axis2")]),as.matrix(scores[,c("NMDS1","NMDS2")]))
+    stopifnot(max(abs(aligned$Yrot-as.matrix(xy[,c("Axis1","Axis2")])))<1e-4)
+    scores$NMDS1<-xy$Axis1;scores$NMDS2<-xy$Axis2
+    P <- readRDS(file.path(ref,paste0("microcosm_",marker,"_block_permutations.rds")))
+    destination <- file.path(out_root,"microcosm",marker)
+    ff <- factorial_permanova(d,md2,P,destination,if(marker=="ITS")7202 else 7201)
+    xy$point_shape <- c("Full sunlight"=21,"Reduced UV"=24,"Reduced UV and blue-green"=22)[xy$inoculum]
+    xy$point_fill <- c("Full sunlight"="#E3AC18","Reduced UV"="#77BCE8","Reduced UV and blue-green"="#555555")[xy$substrate]
+    write.csv(data.frame(marker,xy),file.path(destination,"plotted_ordination_scores.csv"),row.names=FALSE)
+    saveRDS(mat,file.path(destination,"rarefied_asv_matrix.rds"))
+    a <- ff$anova[ff$anova$term=="substrate",];fit <- data.frame(F=a$F,R2=a$R2,`Pr(>F)`=a$p,check.names=FALSE)
+    zz<-ff$dispersion[ff$dispersion$grouping=="substrate",];dp<-list(tab=data.frame(F=zz$F,`Pr(>F)`=zz$p,check.names=FALSE))
+    pair <- read.csv(file.path(destination,"conditional_pairwise_permanova.csv"))
+  } else {
   seed_base<-if(experiment=="field")if(marker=="16S")5101 else 5102 else if(marker=="16S")5201 else 5202
   set.seed(seed_base)
   fit <- adonis2(d~Treatment,data=md,permutations=9999,strata=md$PermutationBlock)
@@ -202,26 +284,39 @@ analyse_one <- function(ps,marker,experiment) {
   set.seed(seed_base+100)
   disp <- betadisper(d,md$Treatment); dp <- permutest(disp,permutations=ctrl)
   pair <- pairwise_permanova(mat,md)
-  global <- data.frame(experiment=experiment,marker=marker,N=nrow(md),taxa=ncol(mat),
+  }
+  global <- data.frame(experiment=experiment,marker=marker,N=nrow(md),
+                       minimum_prevalence_samples=minimum_prevalence_samples,
+                       minimum_observed_asv_prevalence=minimum_observed_asv_prevalence,
+                       taxa_after_prevalence=taxa_after_prevalence,
+                       taxa_after_rarefaction=ncol(mat),
+                       assigned_genera_after_rarefaction=assigned_genera_after_rarefaction,
                        rarefaction_depth=rare_depth,NMDS_stress=ord$stress,F=fit$F[1],R2=fit$R2[1],
                        p=fit$`Pr(>F)`[1],dispersion_F=dp$tab[1,"F"],dispersion_p=dp$tab[1,"Pr(>F)"])
   write.csv(global,file.path(out_root,paste0(experiment,"_",marker,"_global_statistics.csv")),row.names=FALSE)
-  write.csv(pair,file.path(out_root,paste0(experiment,"_",marker,"_pairwise_permanova.csv")),row.names=FALSE)
+  if(experiment=="field")write.csv(pair,file.path(out_root,paste0(experiment,"_",marker,"_pairwise_permanova.csv")),row.names=FALSE)
   write.csv(scores,file.path(out_root,paste0(experiment,"_",marker,"_nmds_scores.csv")),row.names=FALSE)
-  annotation <- sprintf("Blocked PERMANOVA: F = %.2f, R² = %.3f, p = %s",
-                        fit$F[1],fit$R2[1],format.pval(fit$`Pr(>F)`[1],digits=2,eps=.0001))
   xr<-range(scores$NMDS1);yr<-range(scores$NMDS2)
+  panel_note <- sprintf("N = %d; stress = %.3f",nrow(md),ord$stress)
   p <- ggplot(scores,aes(NMDS1,NMDS2,colour=Treatment,fill=Treatment))+
     stat_ellipse(geom="polygon",type="norm",level=.75,alpha=.10,colour=NA)+
     stat_ellipse(type="norm",level=.75,linetype="dotted",linewidth=.55)+
     geom_point(shape=21,size=3.2,stroke=.45,colour="black")+
     scale_fill_manual(values=colours,labels=labels)+
     scale_colour_manual(values=colours,labels=labels,guide="none")+
-    annotate("label",x=xr[2]-.02*diff(xr),y=yr[2]-.02*diff(yr),label=annotation,
-             hjust=1,vjust=1,size=3.05,linewidth=.18)+
-    coord_cartesian(clip="off")+theme_bw(base_size=12)+
-    theme(panel.grid=element_blank(),legend.position="bottom",plot.margin=margin(6,5,4,5))+
-    labs(title=marker,subtitle=sprintf("N = %d; stress = %.3f",nrow(md),ord$stress),
+    annotate("text",x=xr[2]-.025*diff(xr),y=yr[1]+.035*diff(yr),label=panel_note,
+             hjust=1,vjust=0,size=4.4)+
+    coord_cartesian(clip="off")+theme_bw(base_size=16)+
+    theme(panel.grid=element_blank(),legend.position="bottom",
+          plot.title=element_text(size=21),
+          plot.subtitle=element_text(size=17),
+          axis.title=element_text(size=17),
+          axis.text=element_text(size=15),
+          legend.title=element_text(size=17),
+          legend.text=element_text(size=16),
+          legend.key.size=grid::unit(1.15,"lines"),
+          plot.margin=margin(7,6,5,6))+
+    labs(title=if(marker=="ITS") "A. Fungi" else "B. Bacteria",
          colour=if(experiment=="field")"Sunlight exposure" else "Litter photodegradation",fill=NULL)
   g <- export_genus(ps,marker,experiment)
   list(nmds=p,composition=g,global=global)
@@ -229,7 +324,7 @@ analyse_one <- function(ps,marker,experiment) {
 
 ps16 <- load_16s(); psits <- load_its()
 results <- list()
-for(exp in c("field","microcosm")) {
+for(exp in selected_experiments) {
   results[[paste(exp,"16S")]] <- analyse_one(ps16,"16S",exp)
   results[[paste(exp,"ITS")]] <- analyse_one(psits,"ITS",exp)
   pn <- results[[paste(exp,"ITS")]]$nmds + results[[paste(exp,"16S")]]$nmds +
@@ -249,3 +344,26 @@ for(exp in c("field","microcosm")) {
 all_global <- bind_rows(lapply(results,`[[`,"global"))
 write.csv(all_global,file.path(out_root,"amplicon_global_statistics.csv"),row.names=FALSE)
 writeLines(capture.output(sessionInfo()),file.path(out_root,"R_session_info.txt"))
+
+if("microcosm"%in%selected_experiments) {
+  combined<-file.path(out_root,"microcosm");st<-sc<-va<-ell<-sm<-list()
+  for(marker in c("ITS","16S")) {
+    b<-file.path(combined,marker)
+    xy<-read.csv(file.path(b,"plotted_ordination_scores.csv"));sc[[marker]]<-xy
+    a<-read.csv(file.path(b,"sequential_permanova.csv"));va[[marker]]<-data.frame(marker,read.csv(file.path(b,"sequential_variance_partition.csv")))
+    st[[marker]]<-data.frame(marker,test=a$term[1:3],p=a$p[1:3],label=sprintf("%s: p = %.4f",c("Inoculum","Substrate","Interaction"),a$p[1:3]))
+    es<-list()
+    for(substrate in sunlight_levels) {
+      z<-xy[xy$substrate==substrate,c("Axis1","Axis2")];e<-ggplot2:::calculate_ellipse(z,c("Axis1","Axis2"),"norm",.75,120)
+      es[[substrate]]<-data.frame(marker,substrate,vertex=seq_len(nrow(e)),e,N=nrow(z))
+    }
+    ell[[marker]]<-do.call(rbind,es)
+    stress<-read.csv(file.path(repo_root,"data","ordination_reference",paste0("microcosm_",marker,"_ordination_stress.csv")))$stress[1]
+    sm[[marker]]<-data.frame(marker,N=nrow(xy),NMDS_stress=stress)
+  }
+  for(n in c("plotted_ordination_scores","sequential_variance_partition","printed_statistics","pooled_substrate_ellipses","panel_summary_labels")) {
+    obj<-switch(n,plotted_ordination_scores=sc,sequential_variance_partition=va,printed_statistics=st,pooled_substrate_ellipses=ell,panel_summary_labels=sm)
+    write.csv(do.call(rbind,obj),file.path(combined,paste0(n,".csv")),row.names=FALSE)
+  }
+  stopifnot(system2("Rscript",c(shQuote(file.path(repo_root,"scripts","render_figure4.R")),shQuote(combined),shQuote(out_root)))==0)
+}

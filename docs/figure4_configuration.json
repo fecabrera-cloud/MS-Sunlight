@@ -1,0 +1,26 @@
+{
+  "substrates": {
+    "Full sunlight": "#E3AC18",
+    "Reduced UV": "#77BCE8",
+    "Reduced UV and blue-green": "#555555"
+  },
+  "inoculum_shapes": {
+    "Full sunlight": 21,
+    "Reduced UV": 24,
+    "Reduced UV and blue-green": 22
+  },
+  "variance_partition": {
+    "component_colours": {
+      "Inoculum": "#8C6BB1",
+      "Substrate": "#35978F",
+      "Interaction": "#525252",
+      "Residual": "#DEDEDE"
+    },
+    "order": [
+      "inoculum",
+      "substrate",
+      "inoculum:substrate",
+      "residual"
+    ]
+  }
+}

@@ -1,0 +1,41 @@
+"sample_id","inoculum","substrate","block","Axis1","Axis2"
+"S001","Reduced UV and blue-green","Full sunlight","4",-1.02373398708754,-0.314643181628373
+"S002","Reduced UV and blue-green","Reduced UV","1",0.696902068678714,-0.228226086789161
+"S003","Reduced UV","Reduced UV","1",0.725937901582225,-0.0526573441360917
+"S004","Full sunlight","Reduced UV","1",0.224085439792414,-0.137448176444225
+"S005","Reduced UV","Full sunlight","4",-1.21333416588145,0.38556103523433
+"S007","Reduced UV and blue-green","Reduced UV and blue-green","1",0.520738957123493,-0.296825025517357
+"S008","Reduced UV","Reduced UV and blue-green","1",0.453983936736083,0.660340742763668
+"S009","Full sunlight","Full sunlight","1",-0.79294187103084,0.695551260883384
+"S010","Full sunlight","Reduced UV and blue-green","1",0.456548381838393,0.328005834824921
+"S011","Reduced UV","Full sunlight","1",-0.840680283202203,-0.441020506869646
+"S012","Full sunlight","Reduced UV","4",0.624413328111306,-0.200656751768968
+"S013","Reduced UV and blue-green","Reduced UV and blue-green","4",0.433921829499075,-0.388575686602934
+"S015","Full sunlight","Full sunlight","4",-0.568935422707493,0.556706658812828
+"S016","Reduced UV","Reduced UV","4",0.750141321427514,0.172739422573392
+"S018","Full sunlight","Full sunlight","5",-0.251801507534919,0.239467749896436
+"S019","Reduced UV and blue-green","Full sunlight","3",-1.11292961766242,-0.1304927158261
+"S026","Reduced UV","Reduced UV and blue-green","5",0.541871692450274,0.834720977506162
+"S028","Reduced UV","Reduced UV and blue-green","2",-0.111947932937367,-1.34646084426636
+"S034","Full sunlight","Reduced UV","5",0.942002771561539,-0.134431435970592
+"S039","Full sunlight","Reduced UV","3",-0.0151163673291564,-0.0682683382758575
+"S040","Reduced UV and blue-green","Reduced UV and blue-green","2",0.375661139570378,0.0817844152372301
+"S042","Reduced UV","Full sunlight","2",-1.14225419217792,-0.524645016820697
+"S043","Reduced UV","Reduced UV","3",0.587003463108215,0.374336065694497
+"S052","Full sunlight","Reduced UV","2",-0.345570575732675,-0.0697547721810377
+"S054","Reduced UV and blue-green","Reduced UV","2",0.175776009103661,-0.122259479213922
+"S058","Reduced UV and blue-green","Full sunlight","2",-0.97683556342069,-0.0339212270621621
+"S059","Reduced UV and blue-green","Reduced UV and blue-green","5",0.133822555740028,1.43905204172952
+"S070","Full sunlight","Reduced UV and blue-green","5",0.52152519756306,0.271237085519193
+"S074","Full sunlight","Reduced UV and blue-green","3",0.482638868870095,0.234213771696989
+"S076","Reduced UV","Reduced UV and blue-green","3",0.263972216368354,-0.966794606713574
+"S082","Reduced UV and blue-green","Reduced UV","5",0.631073981344867,-0.111630249872738
+"S085","Reduced UV and blue-green","Reduced UV","3",0.558717533122447,-0.84638942706883
+"S088","Reduced UV","Full sunlight","3",-0.903049569564239,0.115545721321777
+"S089","Reduced UV","Full sunlight","5",-0.969840120703633,-0.239271011694213
+"S093","Reduced UV and blue-green","Reduced UV and blue-green","3",0.779908270405379,-0.271767613378129
+"S094","Reduced UV","Reduced UV","2",0.904805411261717,0.0354686381102827
+"S096","Reduced UV and blue-green","Full sunlight","5",-0.863961322044342,0.0151459749723299
+"S101","Reduced UV","Reduced UV","5",0.664014686877854,0.0376488140158251
+"S104","Full sunlight","Full sunlight","3",-0.68694671003147,0.576504581317252
+"S111","Full sunlight","Full sunlight","2",-0.62958775308873,-0.127891294009046
