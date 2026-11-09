@@ -50,8 +50,30 @@ for c in ['F','R2','p','dispersion_p']:
 compare('Field functional profile',OUT/'functional_metagenomics/field/global_statistics.csv',TARGET/'functional_field_statistics.csv',['experiment'],['N','F','R2','p','dispersion_p'])
 compare('Microcosm functional profile',OUT/'functional_metagenomics/microcosm/sequential_permanova.csv',TARGET/'functional_microcosm_permanova.csv',['term'],['F','R2','p'])
 groups=compare('Functional-group models',OUT/'functional_metagenomics/microcosm/factorial_anova.csv',TARGET/'functional_group_anova.csv',['functional_group','term'],['F','p','q_BH'])
-measure=compare('Measurement models',OUT/'functional_measurements/factorial_anova.csv',TARGET/'measurements_anova.csv',['outcome','term'],['F','p','p_BH'])
+measure=compare('Measurement models',OUT/'functional_measurements/factorial_anova.csv',TARGET/'measurements_anova.csv',['outcome','term'],['N','numerator_df','denominator_df','F','p','p_BH'])
 compare('Measurement substrate contrasts',OUT/'functional_measurements/substrate_pairwise_Tukey.csv',TARGET/'measurement_substrate_contrasts.csv',['outcome','group1','group2'],['estimate','p_Tukey'])
+measurement_input=pd.read_csv(ROOT/'data/functional_measurements/cleaned_functional_measurements.csv')
+inoculated=measurement_input[~measurement_input.is_control].set_index('id')
+expected_bottles=set(range(1,46))-{29,35}
+check('Measurement input bottle identities',measurement_input.id.is_unique and set(inoculated.index)==expected_bottles)
+check('Measurement input excludes block 6',not measurement_input.block.eq(6).any() and set(inoculated.block)==set(range(1,6)))
+check('Measurement input controls retained',set(measurement_input.loc[measurement_input.is_control,'id'])==set(range(49,56)))
+check('Measurement inclusion ledger',set(pd.read_csv(ROOT/'data/sample_inclusion_ledger.csv').query("assay == 'functional_measurements' and included_primary").sample_id.astype(int))==expected_bottles)
+plotted=pd.read_csv(OUT/'functional_measurements/plotted_samples.csv')
+measurement_columns={'decomposition':'decomposition_pct','biomass':'microbial_biomass_c_ug_g','beta_glucosidase':'beta_glucosidase','cue_proxy':'cue_proxy'}
+for outcome,column in measurement_columns.items():
+ expected_ids=expected_bottles-({9,44,45} if outcome=='cue_proxy' else set())
+ points=plotted[plotted.outcome==outcome].set_index('sample_id')
+ check(outcome+' available measurement IDs',set(inoculated.index[inoculated[column].notna()])==expected_ids)
+ check(outcome+' plotted bottle IDs',points.index.is_unique and set(points.index)==expected_ids)
+ check(outcome+' plotted values',np.allclose(points.value,inoculated.loc[points.index,column],rtol=1e-12,atol=1e-12))
+ check(outcome+' fitted sample size',measure.loc[measure.outcome==outcome,'N'].eq(len(expected_ids)).all())
+design=pd.read_csv(OUT/'functional_measurements/design_checks.csv')
+check('Measurement random block design',len(design)==4 and design.blocks.eq(5).all() and design.fixed_columns.eq(9).all() and design.fixed_block_columns.eq(0).all() and not design.singular.any())
+brackets=pd.read_csv(OUT/'functional_measurements/displayed_brackets.csv')
+contrasts=pd.read_csv(OUT/'functional_measurements/substrate_pairwise_Tukey.csv')
+significant=contrasts[contrasts.p_Tukey.lt(.05)]
+check('Measurement displayed brackets',set(zip(brackets.outcome,brackets.group1,brackets.group2))==set(zip(significant.outcome,significant.group1,significant.group2)))
 compare('Genus overlap',OUT/'amplicon_comparison/data/venn_counts.csv',TARGET/'genus_overlap_counts.csv',['marker'],['field_only','shared','microcosm_only'])
 for frame,qcol,n,label in [(groups,'q_BH',12,'functional group'),(measure,'p_BH',4,'measurement')]:
  for term,g in frame.groupby('term',sort=False):

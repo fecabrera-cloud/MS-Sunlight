@@ -46,7 +46,11 @@ Treatment-blind audit of every KO detected at nonzero abundance in either final 
 
 ## Functional measurements
 
-`cleaned_functional_measurements.csv` contains inoculated microcosms and noninoculated controls. Primary variables are:
+`cleaned_functional_measurements.csv` contains inoculated microcosms and noninoculated controls.
+
+The dataset contains 43 inoculated bottles from experimental blocks 1–5 and seven non-inoculated controls, coded as block 7. Records labelled block 6 were excluded; see `docs/SAMPLE_EXCLUSIONS.md`. Three retained inoculated bottles lack cumulative respiration, leaving 40 biomass-to-respiration ratios.
+
+Primary variables are:
 
 - `decomposition_pct`: litter dry-mass loss during incubation; microbial biomass was not subtracted;
 - `microbial_biomass_c_ug_g`: biomass C inferred from substrate-induced respiration;

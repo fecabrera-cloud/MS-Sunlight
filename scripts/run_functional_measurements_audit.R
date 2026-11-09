@@ -7,6 +7,9 @@ out<-file.path(repo_root,"results","reproduced","functional_measurements");dir.c
 data_out<-out
 write_table<-function(x,n)write.csv(x,file.path(out,n),row.names=FALSE,na="")
 input_data<-read.csv(file.path(repo_root,"data","functional_measurements","cleaned_functional_measurements.csv"))
+model_blocks<-sort(unique(input_data$block[!input_data$is_control]))
+stopifnot(identical(model_blocks,1:5),!anyDuplicated(input_data$id),
+  !any(input_data$block==6))
 columns<-c(decomposition="decomposition_pct",biomass="microbial_biomass_c_ug_g",beta_glucosidase="beta_glucosidase",cue_proxy="cue_proxy")
 origins <- c("Full sunlight","Reduced UV","Reduced UV and blue-green")
 palette <- setNames(c("#E3AC18","#77BCE8","#555555"),origins)
@@ -17,7 +20,9 @@ spec <- data.frame(outcome=c("decomposition","biomass","beta_glucosidase","cue_p
   title=c("A  Dry-mass loss","B  Microbial biomass C","C  β-Glucosidase activity","D  Biomass-to-respiration\n     ratio"),
   ylabel=c("Dry-mass loss (%)","SIR-derived biomass C (µg C g⁻¹)",
     "Potential activity (µmol g⁻¹ h⁻¹)","Biomass C / cumulative respiration"),
-  log=c(FALSE,TRUE,TRUE,TRUE),N=c(46,46,46,43))
+  log=c(FALSE,TRUE,TRUE,TRUE))
+spec$N<-vapply(spec$outcome,function(outcome)
+  sum(!input_data$is_control & is.finite(input_data[[columns[[outcome]]]])),integer(1))
 pair_levels <- combn(origins,2,simplify=FALSE)
 pair_keys <- vapply(pair_levels,paste,collapse=" - ",FUN.VALUE=character(1))
 models <- list();raw_rows <- stat_rows <- mean_rows <- pair_rows <- conditional_rows <- check_rows <- list()
@@ -27,7 +32,8 @@ for(j in seq_len(nrow(spec))) {
  d$y<-if(s$log)log(d$value) else d$value
  for(v in c("inoculum","substrate"))d[[v]] <- factor(d[[v]],levels=origins)
  d$block <- factor(d$block)
- stopifnot(nrow(d)==s$N,nlevels(d$block)==6,!anyNA(d),
+ stopifnot(nrow(d)==s$N,identical(as.integer(levels(d$block)),model_blocks),
+   !anyNA(d),all(is.finite(d$y)),
    max(abs(d$y-if(s$log)log(d$value) else d$value))<1e-10)
  fit <- lmer(y~inoculum*substrate+(1|block),data=d,REML=TRUE)
  stopifnot(ncol(getME(fit,"X"))==9,!any(grepl("block",colnames(getME(fit,"X")))),all(fit@optinfo$conv$opt==0))
@@ -67,15 +73,15 @@ for(j in seq_len(nrow(spec))) {
  conditional_rows[[j]] <- conditional
  d$outcome <- s$outcome;raw_rows[[j]] <- d
  check_rows[[j]] <- data.frame(outcome=s$outcome,N=nrow(d),blocks=nlevels(d$block),
-   fixed_columns=ncol(getME(fit,"X")),fixed_block_columns=0)
+   fixed_columns=ncol(getME(fit,"X")),fixed_block_columns=0,
+   singular=isSingular(fit),block_sd=as.data.frame(VarCorr(fit))$sdcor[1],
+   residual_sd=sigma(fit))
 }
 statistics <- bind_rows(stat_rows)%>%group_by(term)%>%mutate(p_BH=p.adjust(p,"BH"))%>%ungroup()
 raw <- bind_rows(raw_rows);means <- bind_rows(mean_rows);contrasts <- bind_rows(pair_rows)
 for(v in c("substrate","inoculum"))raw[[v]] <- factor(raw[[v]],levels=origins)
 means$substrate <- factor(means$substrate,levels=origins)
 statistics <- statistics%>%mutate(significance=ifelse(p_BH<.05,"S","NS"))
-stopifnot(all(statistics$significance[statistics$term=="substrate"]=="S"),
-  all(statistics$significance[statistics$term!="substrate"]=="NS"))
 set.seed(42)
 raw$x <- as.integer(raw$substrate)+unname(offsets[as.character(raw$inoculum)])+runif(nrow(raw),-.035,.035)
 means$x <- as.integer(means$substrate)
@@ -86,7 +92,6 @@ for(j in seq_len(nrow(spec))) {
  a <- a[match(c("substrate","inoculum","inoculum:substrate"),a$term),]
  a$label <- paste0(c("Substrate","Inoculum","Interaction"),": ",a$significance)
  cp <- filter(contrasts,outcome==s$outcome,p_Tukey<.05)
- stopifnot(nrow(cp)==if(s$outcome=="decomposition")0 else 2)
  yr <- range(c(d$value,e$lower,e$upper));span <- diff(yr)
  ymin <- max(0,yr[1]-.07*span)
  b <- cp
@@ -130,7 +135,7 @@ for(j in seq_len(nrow(spec))) {
  stopifnot(nrow(built$data[[1]])==s$N,nrow(built$data[[2]])==3,nrow(built$data[[3]])==3,
    identical(sort(unique(built$data[[1]]$shape)),c(21,22,24)),
    identical(built$data[[4]]$label,a$label),all(d$x>.5 & d$x<3.5))
- if(nrow(b))stopifnot(nrow(built$data[[5]])==2,
+ if(nrow(b))stopifnot(nrow(built$data[[5]])==nrow(b),
    all(built$data[[6]]$yend<built$data[[6]]$y),all(built$data[[7]]$yend<built$data[[7]]$y))
  plot_checks[[j]] <- data.frame(outcome=s$outcome,plotted_samples=nrow(built$data[[1]]),
    plotted_marginal_means=nrow(built$data[[3]]),ANOVA_labels=nrow(built$data[[4]]),
@@ -151,13 +156,14 @@ write_table(raw,"plotted_samples.csv");write_table(bind_rows(bracket_rows),"disp
 write_table(bind_rows(annotation_rows),"displayed_ANOVA_labels.csv");write_table(bind_rows(check_rows),"design_checks.csv")
 write_table(bind_rows(plot_checks),"plot_validation.csv")
 saveRDS(models,file.path(data_out,"figure6_models.rds"));saveRDS(figure,file.path(data_out,"figure6_plot.rds"))
-write_json(list(outcomes=4,N=spec$N,blocks=6,random_block_retained=TRUE,fixed_block_columns=0,
+write_json(list(outcomes=4,N=spec$N,blocks=length(model_blocks),random_block_retained=TRUE,fixed_block_columns=0,
   primary_model="response ~ inoculum * substrate + (1 | block)",
   corner_labels="S: BH q < 0.05; NS: BH q >= 0.05; adjustment across 4 outcomes separately for each term",
-  displayed_substrate_brackets=6,bracket_p_values="Tukey within 3 marginal substrate comparisons per outcome",
+  displayed_substrate_brackets=sum(contrasts$p_Tukey<.05),bracket_p_values="Tukey within 3 marginal substrate comparisons per outcome",
   marginal_means="Equal inoculum weights; log responses back-transformed to geometric means",
   fourth_panel="Biomass-to-respiration ratio; CUE proxy, not a direct physiological CUE measure",
   treatment_labels=origins,inoculum_shapes=as.list(shapes),substrate_colours=as.list(palette),font_sizes_pt=font_sizes),
   file.path(out,"validation.json"),pretty=TRUE,auto_unbox=TRUE)
 writeLines(capture.output(sessionInfo()),file.path(out,"R_session_info.txt"))
-cat("Figure 6 saved with 12 ANOVA labels, inoculum shapes, marginal means, and six Tukey brackets.\n")
+cat(sprintf("Figure 6 saved with 12 ANOVA labels, inoculum shapes, marginal means, and %d Tukey brackets.\n",
+  sum(contrasts$p_Tukey<.05)))

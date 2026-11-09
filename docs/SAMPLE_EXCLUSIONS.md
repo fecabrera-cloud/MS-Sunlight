@@ -17,4 +17,6 @@ Final primary sample sizes reproduced by the workflow are:
 | 16S amplicons | 19 | 36 |
 | ITS amplicons | 18 | 40 |
 | Shotgun functional metagenomics | 19 | 41 |
-| Functional measurements | — | 46 for dry-mass loss, biomass, and beta-glucosidase; 43 for biomass/respiration ratio |
+| Functional measurements | — | 43 for dry-mass loss, biomass, and beta-glucosidase; 40 for biomass/respiration ratio |
+
+Functional-measurement analyses are restricted to the five experimental blocks. Records labelled block 6 (bottle IDs 46–48, all full-sunlight substrates) were excluded from the cleaned measurement dataset. The retained inoculated records comprise 15 full-sunlight, 15 reduced-UV, and 13 reduced-UV-and-blue-green substrates. Bottle IDs 29 and 35 have no record in this dataset, so the analysed sample size is 43 rather than the 45 bottles initially established. The seven non-inoculated controls remain available for descriptive purposes and are excluded from the fitted models. Cumulative respiration is unavailable for retained bottle IDs 9, 44, and 45; the biomass-to-respiration ratio therefore has N = 40. No values were imputed.

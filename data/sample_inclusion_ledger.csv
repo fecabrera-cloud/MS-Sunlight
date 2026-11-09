@@ -164,9 +164,9 @@ S111,microcosm,ITS,SusS+,InocS+,2,48478.0,True,,48424.0,amplicon_ITS,endpoint
 43,microcosm,functional_measurements,S+,InocUV-,5,,True,,,functional_measurements,endpoint
 44,microcosm,functional_measurements,S-,InocUV-,5,,True,,,functional_measurements,endpoint
 45,microcosm,functional_measurements,UV-,InocUV-,5,,True,,,functional_measurements,endpoint
-46,microcosm,functional_measurements,S+,InocR+,6,,True,,,functional_measurements,endpoint
-47,microcosm,functional_measurements,S+,InocR-,6,,True,,,functional_measurements,endpoint
-48,microcosm,functional_measurements,S+,InocUV-,6,,True,,,functional_measurements,endpoint
+46,microcosm,functional_measurements,S+,InocR+,6,,False,record labelled block 6; excluded from five-block measurement analysis,,functional_measurements,endpoint
+47,microcosm,functional_measurements,S+,InocR-,6,,False,record labelled block 6; excluded from five-block measurement analysis,,functional_measurements,endpoint
+48,microcosm,functional_measurements,S+,InocUV-,6,,False,record labelled block 6; excluded from five-block measurement analysis,,functional_measurements,endpoint
 49,microcosm,functional_measurements,S+,NI,7,,False,non-inoculated control; descriptive only,,functional_measurements,control
 50,microcosm,functional_measurements,S+,NI,7,,False,non-inoculated control; descriptive only,,functional_measurements,control
 51,microcosm,functional_measurements,S+,NI,7,,False,non-inoculated control; descriptive only,,functional_measurements,control
