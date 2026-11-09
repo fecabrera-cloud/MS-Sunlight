@@ -2,7 +2,7 @@
 
 Processed scientific data, analysis code, tables, and figures for the study of direct and litter-mediated sunlight effects on maize-litter microbiomes.
 
-The package begins at the processed bioinformatics-table level. It reproduces field and microcosm amplicon analyses, targeted functional profiles, microcosm functional-group and measured-function factorial models, descriptive substrate chemistry, and field microclimate analyses. The genus-level DESeq2 analysis retains its existing specification; see [statistical methods](docs/ANALYSIS_METHODS.md).
+The package begins at the processed bioinformatics-table level. It reproduces field and microcosm amplicon analyses, targeted functional profiles, microcosm functional-group and measured-function factorial models, substrate chemistry summaries, and field microclimate analyses. The genus-level DESeq2 analysis retains its existing specification; see [statistical methods](docs/ANALYSIS_METHODS.md).
 
 ## Structure
 

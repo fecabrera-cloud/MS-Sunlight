@@ -61,7 +61,7 @@ Primary variables are:
 
 ## Chemistry
 
-`combined_replicate_level_source_data.csv` is a long-format integration of chemical, fiber, and muffle-furnace measurements. `assay_unit_id` identifies the independently prepared analytical unit within each source assay. Values are summarized descriptively by substrate treatment.
+`combined_replicate_level_source_data.csv` is a long-format integration of chemical, fiber, and muffle-furnace measurements. `assay_unit_id` identifies the analytical unit within each source assay. Chemistry summaries report assay-specific sample sizes, means, and standard deviations by substrate treatment.
 
 ## Microclimate
 

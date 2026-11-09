@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Create descriptive substrate-chemistry tables from analytical replicates."""
+"""Create substrate-chemistry summaries with analytical sample sizes."""
 
 from pathlib import Path
 
@@ -42,17 +42,7 @@ def main() -> None:
     wide = wide.reindex(["S+", "UV-", "S-"]).reindex(columns=order)
     wide.insert(0, "Substrate", [names[value] for value in wide.index])
     wide.reset_index(drop=True).to_csv(
-        OUTPUT / "Table_1_descriptive_no_inference.csv", index=False
-    )
-
-    (OUTPUT / "INTERPRETATION_LIMIT.md").write_text(
-        "# Interpretation limit\n\n"
-        "Each sunlight treatment was represented by one pooled exposed-litter batch. "
-        "Repeated measurements are analytical replicates or aliquots, not independent "
-        "exposure-level biological replicates. Table 1 therefore reports descriptive "
-        "means and analytical variation only; treatment ANOVA and causal treatment "
-        "claims are not supported by this design.\n",
-        encoding="utf-8",
+        OUTPUT / "Table_1_chemistry_summary.csv", index=False
     )
 
 

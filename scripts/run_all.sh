@@ -17,7 +17,7 @@ echo '[4/8] Microcosm functional measurements'
 Rscript scripts/run_functional_measurements_audit.R
 echo '[5/8] Field and microcosm genus comparison'
 Rscript scripts/plot_genus_comparison.R
-echo '[6/8] Descriptive substrate chemistry'
+echo '[6/8] Substrate chemistry summaries'
 python scripts/run_chemistry_analysis.py
 echo '[7/8] Field microclimate'
 python scripts/run_microclimate_analysis.py
