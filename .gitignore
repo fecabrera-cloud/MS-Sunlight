@@ -6,3 +6,10 @@ __pycache__/
 ~$*.docx
 results/
 validation/
+
+# Local Spanish supplementary material
+/figures/final/suplementarias-cap4-español.docx
+/figures/final/suplementarias-es/
+
+# Windows download metadata
+*:Zone.Identifier
