@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Create substrate-chemistry summaries with analytical sample sizes."""
+"""Create substrate-chemistry summaries with measurement counts."""
 
 from pathlib import Path
 
@@ -19,7 +19,7 @@ def main() -> None:
         .agg(["count", "mean", "std", "min", "max"])
         .reset_index()
     )
-    summary.to_csv(OUTPUT / "descriptive_analytical_summary_long.csv", index=False)
+    summary.to_csv(OUTPUT / "chemistry_summary_long.csv", index=False)
 
     order = [
         "Nt (%)", "TOC (%)", "TP (ppm)", "C:N", "pH",
@@ -34,7 +34,7 @@ def main() -> None:
     summary["display"] = summary.apply(
         lambda row: (
             f"{row['mean']:.2f} ± {row['std']:.2f} "
-            f"(analytical n={int(row['count'])})"
+            f"(measurements: n={int(row['count'])})"
         ),
         axis=1,
     )

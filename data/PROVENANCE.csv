@@ -13,7 +13,7 @@ functional_metagenomics/frozen_332_KO_functional_group_mapping.csv,curation inpu
 functional_metagenomics/functional_group_definitions.csv,curation input,hypothesis-driven ontology,Definitions and functional boundaries for 13 groups
 functional_metagenomics/full_7931_KO_universe_review.csv,curation audit,all detected KOs,Complete inclusion/exclusion audit universe
 functional_measurements/cleaned_functional_measurements.csv,processed input,measurement cleaning and unit derivation,Includes controls; primary model script selects inoculated microcosms
-chemistry/combined_replicate_level_source_data.csv,processed input,chemical/fiber/muffle assay integration,Analytical replicates summarized descriptively
+chemistry/combined_replicate_level_source_data.csv,processed input,chemical/fiber/muffle assay integration,Chemistry measurements summarized by substrate treatment
 microclimate/field_only_anomaly_filtered.csv,processed input,logger concatenation and declared anomaly filtering,Primary microclimate series
 microclimate/all_concatenated_ibutton_series_field_only.csv,QC input,logger concatenation,Pre-filter field logger series
 microclimate/excluded_anomalous_values.csv,QC input,anomaly audit,Excluded logger observations and reasons
