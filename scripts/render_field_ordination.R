@@ -18,9 +18,9 @@ fig$layers[[5]]$mapping <- aes(x=0,y=0,xend=xend,yend=yend)
 fig$layers[[5]]$aes_params$colour <- grey
 fig$layers[[6]]$mapping <- aes(x=xend,y=yend,label=display_label)
 fig$layers[[6]]$aes_params$colour <- grey
-# Match the labels in the author-controlled publication Figure 2 PDF.
+# Match the treatment labels used in Figure 2 and the manuscript text.
 publication_labels <- c("S+"="Full sunlight","UV-"="Reduced UV",
-                        "S-"="Reduced UV and BG")
+                        "S-"="Reduced UV and blue-green")
 fill_scale <- fig$scales$get_scales("fill")
 fill_scale$labels <- publication_labels
 fill_scale$name <- NULL
