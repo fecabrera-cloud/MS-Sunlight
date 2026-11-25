@@ -15,11 +15,11 @@
 | Figure S5 | `FigS5.pdf` | `amplicons/field_top12_genera.pdf` | `run_amplicon_audit.R` |
 | Figure S6 | `FigS6.pdf` | `amplicons/field_all_genus_volcano.pdf` | `run_amplicon_deseq.py` |
 | Figure S7 | `FigS7.pdf` | `functional_metagenomics/field/supplementary_functional_groups.pdf` | `run_functional_metagenomics_audit.R` |
-| Figure S8 | `FigS8.pdf` | `amplicons/microcosm_top12_genera.pdf` | `run_amplicon_audit.R` |
-| Figure S9 | `FigS9.pdf` | `amplicon_comparison/field_microcosm_genus_comparison.pdf` | `plot_genus_comparison.R` |
+| Figure S8 | `FigS8.pdf` | `amplicon_comparison/field_microcosm_genus_comparison.pdf` | `plot_genus_comparison.R` |
+| Figure S9 | `FigS9.pdf` | `amplicons/microcosm_top12_genera.pdf` | `run_amplicon_audit.R` |
 | Figure S10 | `FigS10.pdf` | `amplicons/microcosm_all_genus_volcano.pdf` | `run_amplicon_deseq.py` |
 | Figure S11 | `FigS11.pdf` | `functional_metagenomics/microcosm/supplementary_functional_groups.pdf` | `run_functional_metagenomics_audit.R` |
 
-S8 retains one bar per sample, ordered by substrate and inoculum. S9 is descriptive. S10 retains the existing genus-level analysis. S11 contains only the functional-group overview.
+S8 is descriptive. S9 retains one bar per sample, ordered by substrate and inoculum. S10 retains the existing genus-level analysis. S11 contains only the functional-group overview.
 
 Tables S1–S2 are produced by `build_supplementary_tables.py`. The figure bundle is produced by `build_figure_bundle.py` from the final PDFs. The final PDF/PPTX assets are protected from overwrite during reproduction.
