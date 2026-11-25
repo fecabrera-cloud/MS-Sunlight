@@ -46,18 +46,23 @@ Treatment-blind audit of every KO detected at nonzero abundance in either final 
 
 ## Functional measurements
 
-`cleaned_functional_measurements.csv` contains inoculated microcosms and noninoculated controls. Primary variables are:
+`cleaned_functional_measurements.csv` contains inoculated microcosms and noninoculated controls.
+
+The dataset contains 43 inoculated bottles from experimental blocks 1–5, three additional full-sunlight bottles coded as block 6 that are outside the five-block design and were not processed for molecular analyses, and seven non-inoculated controls coded as block 7. `in_primary_analysis` is TRUE only for the 43 inoculated block 1–5 bottles used in the models; see `docs/SAMPLE_EXCLUSIONS.md`. Three retained inoculated bottles lack cumulative respiration, leaving 40 biomass-to-respiration ratios.
+
+Primary variables are:
 
 - `decomposition_pct`: litter dry-mass loss during incubation; microbial biomass was not subtracted;
 - `microbial_biomass_c_ug_g`: biomass C inferred from substrate-induced respiration;
 - `beta_glucosidase`: potential beta-glucosidase activity;
 - `respiration_auc`: integrated respiration response;
 - `cue_proxy`: microbial biomass C divided by integrated respiration; three values are missing because cumulative respiration was unavailable;
-- `inoculum`, `block`, `substrate_code`: model design variables.
+- `inoculum`, `block`, `substrate_code`: model design variables;
+- `in_primary_analysis`: TRUE for bottles included in the fitted models.
 
 ## Chemistry
 
-`combined_replicate_level_source_data.csv` is a long-format integration of chemical, fiber, and muffle-furnace measurements. `assay_unit_id` identifies the independently prepared analytical unit within each source assay. Values are summarized descriptively by substrate treatment.
+`combined_replicate_level_source_data.csv` is a long-format integration of chemical, fiber, and muffle-furnace measurements. `assay_unit_id` identifies the measurement unit within each source assay. Chemistry summaries report assay-specific measurement counts, means, and standard deviations by substrate treatment.
 
 ## Microclimate
 

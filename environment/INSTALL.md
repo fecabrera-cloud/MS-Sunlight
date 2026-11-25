@@ -15,7 +15,7 @@ R packages are available from CRAN except `phyloseq`, which is distributed throu
 
 ```r
 install.packages(c(
-  "dplyr", "emmeans", "ggplot2", "ggrepel", "multcompView", "nlme",
+  "dplyr", "emmeans", "ggplot2", "ggrepel", "multcompView", "nlme", "lme4", "lmerTest", "jsonlite",
   "patchwork", "permute", "scales", "stringr", "tibble", "tidyr", "vegan"
 ))
 if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")

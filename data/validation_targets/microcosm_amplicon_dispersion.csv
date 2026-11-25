@@ -1,0 +1,7 @@
+"dataset","grouping","F","p","n_permutations","minimum_group_N"
+"Microcosm ITS","inoculum",2.01950267719168,0.166,9999,13
+"Microcosm ITS","substrate",2.59759308094685,0.1021,9999,12
+"Microcosm ITS","cell",1.63986442525385,0.18,9999,3
+"Microcosm 16S","inoculum",0.624557758976086,0.5342,9999,11
+"Microcosm 16S","substrate",2.77803833817453,0.0937,9999,10
+"Microcosm 16S","cell",0.611425735610456,0.808,9999,3

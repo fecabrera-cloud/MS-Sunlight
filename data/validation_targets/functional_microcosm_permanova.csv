@@ -1,0 +1,6 @@
+"term","df","SumOfSqs","R2","F","p","method"
+"inoculum",2,63.7289034743169,0.132768548904827,3.73192987909887,0.0064,"Sequential adonis2: inoculum, substrate, interaction; 9999 within-block permutations"
+"substrate",2,94.4192519320464,0.19670677485843,5.52913997005101,8e-04,"Sequential adonis2: inoculum, substrate, interaction; 9999 within-block permutations"
+"inoculum:substrate",4,48.6252597910085,0.101302624564601,1.4237343654135,0.1848,"Sequential adonis2: inoculum, substrate, interaction; 9999 within-block permutations"
+"Residual",32,273.226584802628,0.569222051672142,,,"Sequential adonis2: inoculum, substrate, interaction; 9999 within-block permutations"
+"Total",40,480,1,,,"Sequential adonis2: inoculum, substrate, interaction; 9999 within-block permutations"

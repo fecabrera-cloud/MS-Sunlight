@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build publication-readable Tables S1-S3 and the complete KO audit workbook."""
+"""Build publication-readable Tables S1-S2 and the complete KO audit workbook."""
 
 from pathlib import Path
 
@@ -26,43 +26,6 @@ DARK = "1F4E78"
 LIGHT = "EEF5FA"
 MID = "D9EAF7"
 WHITE = "FFFFFF"
-
-
-def make_s3(source: pd.DataFrame) -> pd.DataFrame:
-    rows = []
-    for row in source.itertuples(index=False):
-        primary = "Significant" if row.primary_significant else "Not significant"
-        if row.primary_significant:
-            if row.log_conclusion_stable and row.loo_conclusion_stable:
-                interpretation = "Robust to log transformation and all single-sample omissions"
-            elif row.log_conclusion_stable:
-                interpretation = "Stable after log transformation; sensitive to single-sample omission"
-            elif row.loo_conclusion_stable:
-                interpretation = "Sensitive to log transformation; stable to single-sample omission"
-            else:
-                interpretation = "Sensitive to transformation and single-sample omission"
-        elif row.log_significant or not row.loo_conclusion_stable:
-            interpretation = (
-                "Primary result nonsignificant; significance threshold crossed after "
-                "some sensitivity analyses"
-            )
-        else:
-            interpretation = "Stable nonsignificant result"
-        rows.append(
-            {
-                "Experiment": row.experiment.title(),
-                "Functional group": row.functional_group,
-                "Primary BH-adjusted p": row.primary_q,
-                "Log-transformed BH-adjusted p": row.log_q,
-                "Leave-one-out minimum BH-adjusted p": row.loo_q_min,
-                "Leave-one-out maximum BH-adjusted p": row.loo_q_max,
-                "Omissions changing significance (n)": row.n_omissions_changing_significance,
-                "Omissions changing significance (sample IDs)": row.omissions_changing_significance,
-                "Primary result": primary,
-                "Sensitivity interpretation": interpretation,
-            }
-        )
-    return pd.DataFrame(rows)
 
 
 def shade(cell, fill: str) -> None:
@@ -158,7 +121,7 @@ def caption(document, text: str) -> None:
     run.font.bold = True
 
 
-def build_word(s1: pd.DataFrame, s2: pd.DataFrame, s3: pd.DataFrame) -> None:
+def build_word(s1: pd.DataFrame, s2: pd.DataFrame) -> None:
     document = Document()
     section = document.sections[0]
     section.orientation = WD_ORIENT.LANDSCAPE
@@ -169,7 +132,7 @@ def build_word(s1: pd.DataFrame, s2: pd.DataFrame, s3: pd.DataFrame) -> None:
     document.styles["Normal"].font.size = Pt(8)
     title = document.add_paragraph()
     title.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    title_run = title.add_run("Supplementary Tables S1–S3")
+    title_run = title.add_run("Supplementary Tables S1–S2")
     title_run.font.name = "Arial"
     title_run.font.size = Pt(14)
     title_run.font.bold = True
@@ -245,30 +208,7 @@ def build_word(s1: pd.DataFrame, s2: pd.DataFrame, s3: pd.DataFrame) -> None:
         no_split(table.rows[-1])
     fixed_table(table, [0.7, 2.2, 1.45, 0.75, 4.1, 1.1])
 
-    document.add_page_break()
-    caption(
-        document,
-        "Table S3. Sensitivity of treatment effects on targeted functional-group relative "
-        "abundances. Primary BH-adjusted p-values are shown with natural-log-transformation "
-        "and leave-one-sample-out results. These diagnostics did not trigger sample exclusion "
-        "or replace the primary full-data analysis.",
-    )
-    table = document.add_table(rows=1, cols=len(s3.columns))
-    short = ["Experiment", "Functional group", "Primary q", "Log-scale q", "LOO q min", "LOO q max", "Changed n", "Sample IDs", "Primary result", "Interpretation"]
-    for index, label in enumerate(short):
-        cell_text(table.rows[0].cells[index], label, bold=True, color=WHITE, center=True)
-    header(table.rows[0])
-    for ridx, row in s3.iterrows():
-        cells = table.add_row().cells
-        for index, value in enumerate(row):
-            if isinstance(value, float) and index in {2, 3, 4, 5}:
-                value = f"{value:.4f}"
-            cell_text(cells[index], value, size=6.1, center=index in {0, 2, 3, 4, 5, 6})
-            if ridx % 2:
-                shade(cells[index], LIGHT)
-        no_split(table.rows[-1])
-    fixed_table(table, [0.7, 1.4, 0.65, 0.68, 0.68, 0.68, 0.65, 1.25, 1.0, 2.6])
-    document.save(TABLES / "Supplementary_Tables_S1-S3.docx")
+    document.save(TABLES / "Supplementary_Tables_S1-S2.docx")
 
 
 def build_excel(s2: pd.DataFrame) -> None:
@@ -312,13 +252,9 @@ def build_excel(s2: pd.DataFrame) -> None:
 def main() -> None:
     s1 = pd.read_csv(RESULTS / "functional_group_definitions.csv")
     s2 = pd.read_csv(RESULTS / "frozen_332_KO_functional_group_mapping.csv")
-    sensitivity = pd.read_csv(RESULTS / "functional_group_sensitivity_summary.csv")
-    s3 = make_s3(sensitivity)
     s1.to_csv(TABLES / "Table_S1_functional_group_definitions.csv", index=False)
     s2.to_csv(TABLES / "Table_S2_complete_KO_mapping.csv", index=False)
-    s3.to_csv(TABLES / "Table_S3_functional_group_sensitivity.csv", index=False)
-    s3.to_excel(TABLES / "Table_S3_functional_group_sensitivity.xlsx", index=False)
-    build_word(s1, s2, s3)
+    build_word(s1, s2)
     build_excel(s2)
 
 
