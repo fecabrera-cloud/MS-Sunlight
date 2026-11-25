@@ -53,10 +53,10 @@ groups=compare('Functional-group models',OUT/'functional_metagenomics/microcosm/
 measure=compare('Measurement models',OUT/'functional_measurements/factorial_anova.csv',TARGET/'measurements_anova.csv',['outcome','term'],['N','numerator_df','denominator_df','F','p','p_BH'])
 compare('Measurement substrate contrasts',OUT/'functional_measurements/substrate_pairwise_Tukey.csv',TARGET/'measurement_substrate_contrasts.csv',['outcome','group1','group2'],['estimate','p_Tukey'])
 measurement_input=pd.read_csv(ROOT/'data/functional_measurements/cleaned_functional_measurements.csv')
-inoculated=measurement_input[~measurement_input.is_control].set_index('id')
+inoculated=measurement_input[~measurement_input.is_control & measurement_input.in_primary_analysis].set_index('id')
 expected_bottles=set(range(1,46))-{29,35}
 check('Measurement input bottle identities',measurement_input.id.is_unique and set(inoculated.index)==expected_bottles)
-check('Measurement input excludes block 6',not measurement_input.block.eq(6).any() and set(inoculated.block)==set(range(1,6)))
+check('Measurement additional bottles flagged outside primary analysis',set(measurement_input.loc[measurement_input.block.eq(6),'id'])=={46,47,48} and not measurement_input.loc[measurement_input.block.eq(6),'in_primary_analysis'].any() and set(inoculated.block)==set(range(1,6)))
 check('Measurement input controls retained',set(measurement_input.loc[measurement_input.is_control,'id'])==set(range(49,56)))
 check('Measurement inclusion ledger',set(pd.read_csv(ROOT/'data/sample_inclusion_ledger.csv').query("assay == 'functional_measurements' and included_primary").sample_id.astype(int))==expected_bottles)
 plotted=pd.read_csv(OUT/'functional_measurements/plotted_samples.csv')

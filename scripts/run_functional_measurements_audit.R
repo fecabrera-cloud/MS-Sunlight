@@ -6,10 +6,15 @@ repo_root<-dirname(dirname(script));source(file.path(repo_root,"scripts","factor
 out<-file.path(repo_root,"results","reproduced","functional_measurements");dir.create(out,recursive=TRUE,showWarnings=FALSE)
 data_out<-out
 write_table<-function(x,n)write.csv(x,file.path(out,n),row.names=FALSE,na="")
-input_data<-read.csv(file.path(repo_root,"data","functional_measurements","cleaned_functional_measurements.csv"))
+all_records<-read.csv(file.path(repo_root,"data","functional_measurements","cleaned_functional_measurements.csv"))
+stopifnot(!anyDuplicated(all_records$id),is.logical(all_records$in_primary_analysis),
+  identical(sort(all_records$id[!all_records$is_control & !all_records$in_primary_analysis]),46:48))
+# Bottles 46-48 are additional full-sunlight bottles outside the five-block design
+# that were not processed for molecular analyses; they are retained in the data
+# but excluded from the primary models.
+input_data<-all_records[all_records$is_control | all_records$in_primary_analysis,]
 model_blocks<-sort(unique(input_data$block[!input_data$is_control]))
-stopifnot(identical(model_blocks,1:5),!anyDuplicated(input_data$id),
-  !any(input_data$block==6))
+stopifnot(identical(model_blocks,1:5),!any(input_data$block==6))
 columns<-c(decomposition="decomposition_pct",biomass="microbial_biomass_c_ug_g",beta_glucosidase="beta_glucosidase",cue_proxy="cue_proxy")
 origins <- c("Full sunlight","Reduced UV","Reduced UV and blue-green")
 palette <- setNames(c("#E3AC18","#77BCE8","#555555"),origins)
